@@ -27,7 +27,7 @@ target 'YourApplicationName' do
   # Pods for YourApplicationName
   // ... other pods
 
-  pod 'Klippa-Scanner', podspec: 'https://custom-ocr.klippa.com/sdk/ios/specrepo/{your-username}/{your-password}/KlippaScanner/0.1.1.podspec'
+  pod 'Klippa-Identity-Verification', podspec: 'https://custom-ocr.klippa.com/sdk/ios/specrepo/{your-username}/{your-password}/KlippaIdentityVerification/0.0.5.podspec'
 end
 ```
 
@@ -45,133 +45,27 @@ Edit the file `ios/{project-name}/Info.plist` and add the `NSCameraUsageDescript
 
 ### Flutter
 
-Add `
+Add `klippa_identity_verification_sdk` as a dependency in your pubspec.yaml file.
 
 ## Usage
-```javascript
-import KlippaScannerSDK from '@klippa/react-native-klippa-scanner-sdk';
+```dart
+import 'package:klippa_identity_verification_sdk/klippa_identity_verification_sdk.dart';
 
-// Ask for camera permission.
-KlippaScannerSDK.getCameraPermission().then((authStatus) => {
-    if (authStatus.Status !== "Authorized") {
-        // Do something here to tell the user how they should enable the camera.
-        Alert.alert("No access to camera");
-        return;
-    }
-
-    // Start the scanner.
-    KlippaScannerSDK.getCameraResult({
-        // Required
-        License: "{license-received-by-klippa}",
-    
-        // Optional.
-        // Whether to show the icon to enable "multi-document-mode"
-        AllowMultipleDocuments: true,
-    
-        // Whether the "multi-document-mode" should be enabled by default.
-        DefaultMultipleDocuments: true,
-    
-        // Whether the crop mode (auto edge detection) should be enabled by default.
-        DefaultCrop: true,
-    
-        // Define the max resolution of the output file. It’s possible to set only one of these values. We will make sure the picture fits in the given resolution. We will also keep the aspect ratio of the image. Default is max resolution of camera.
-        ImageMaxWidth: 1920,
-        ImageMaxHeight: 1080,
-    
-        // Set the output quality (between 0-100) of the jpg encoder. Default is 100.
-        ImageMaxQuality: 95,
-    
-        // The warning message when someone should move closer to a document, should be a string.
-        MoveCloserMessage: "Move closer to the document",
-    
-        // Optional. Only affects Android.
-    
-        // What the default color conversion will be (grayscale, original).
-        DefaultColor: "original",
-    
-        // Where to put the image results.
-        StoragePath: "/sdcard/scanner",
-    
-        // The filename to use for the output images, supports replacement tokens %dateTime% and %randomUUID%.
-        OutputFilename: "KlippaScannerExample-%dateTime%-%randomUUID%",
-    
-        // To limit the amount of images that can be taken.
-        ImageLimit: 10,
-        
-        // The message to display when the limit has been reached.
-        ImageLimitReachedMessage: "You have reached the image limit",
-    
-        // Optional. Only affects iOS.
-        // The warning message when the camera result is too bright.
-        ImageTooBrightMessage: "The image is too bright",
-       
-        // The warning message when the camera result is too dark.
-        ImageTooDarkMessage: "The image is too dark",
-        
-        // The primary color of the interface, should be a UIColor.
-        PrimaryColor: null,
-       
-        // The accent color of the interface, should be a UIColor.
-        AccentColor: null,
-    
-        // The overlay color (when using document detection), should be a UIColor.
-        OverlayColor: null,
-    
-        // The color of the background of the warning message, should be a UIColor.
-        WarningBackgroundColor: null,
-        
-        // The color of the text of the warning message, should be a UIColor.
-        WarningTextColor: null,
-        
-        // The amount of opacity for the overlay, should be a float.
-        OverlayColorAlpha: 0.75,
-    
-        // The amount of seconds the preview should be visible for, should be a float.
-        PreviewDuration: 1.0,
-    
-        // Whether the scanner automatically cuts out documents, should be a Boolean.
-        IsCropEnabled: true,
-     
-        // Whether the camera has a view finder overlay (a helper grid so the user knows where the document should be), should be a Boolean.
-        IsViewFinderEnabled: true
-    });
-});
-```
-
-The result of `KlippaScannerSDK.getCameraResult()` is a Promise, so you can get the result with:
-```javascript
-KlippaScannerSDK.getCameraResult(options).then((result) => {
-    console.log(result);
-}).reject((reason) => {
-    console.log(reason);
-});
-```
-
-The content of the result object is:
-```
-{
-  // Whether the MultipleDocuments option was turned on, so you can save it as default.
-  "MultipleDocuments": true,
-
-  // Whether the Crop option was turned on, so you can save it as default (Android only).
-  "Crop": true,
-
-  // What color option was used, so you can save it as default (Android only).
-  "Color": "original",
- 
-  // An array of images.
-  "Images": [
-    {
-      "Filepath": "/sdcard/scanner/dd0ca979-84e1-426e-8877-586e802fed1f.jpg"
-    }
-  ]
+var identityBuilder = IdentityBuilder();
+try {
+  // @todo: get a session token from the API through your backend here.
+  var sessionResult = await KlippaIdentityVerificationSdk.startSession(identityBuilder, '{insert-session-token-here}');
+} on PlatformException catch (e) {
+  print('Failed to start session: ' + e.toString());
 }
 ```
 
+After returning from the SDK you can use the API to validate the session in  your backend.
+
 The reject reason object has a code and a message, the used codes are:
  - E_ACTIVITY_DOES_NOT_EXIST (Android only)
- - E_FAILED_TO_SHOW_CAMERA (Android only)
- - E_LICENSE_ERROR (on iOS license errors result in E_UNKNOWN_ERROR)
+ - E_FAILED_TO_SHOW_SESSION (Android only)
+ - E_MISSING_SESSION_TOKEN
  - E_CANCELED
  - E_UNKNOWN_ERROR
 
@@ -185,7 +79,7 @@ Edit the file `android/build.gradle`, add the following:
 allprojects {
   // ... other definitions
   project.ext {
-      klippaScannerVersion = "{version}"
+      klippaIdentityVerificationVersion = "{version}"
   }
 }
 ```
@@ -194,9 +88,37 @@ Replace the `{version}` value with the version you want to use.
 
 ### iOS
 
-Edit the file `ios/Podfile`, change the pod line of `Klippa-Scanner` and replace `0.1.1.podspec` with `{version}.podspec`, replace the `{version}` value with the version you want to use.
+Edit the file `ios/Podfile`, change the pod line of `Klippa-Identity-Verification` and replace `0.0.5.podspec` with `{version}.podspec`, replace the `{version}` value with the version you want to use.
 
-## How to change the colors of the scanner?
+## How to change the setup of the SDK:
+
+### Debug
+
+To display extra debug info, add the following to the builder:
+
+```dart
+identityBuilder.isDebug = true;
+```
+
+### Intro/Success screens
+
+To configure whether to show intro/success screens, add the following to the builder:
+
+```dart
+identityBuilder.hasIntroScreen = true;
+identityBuilder.hasSuccessScreen = true;
+```
+
+### Language
+
+Add the following to the builder:
+
+```dart
+// We support Dutch and English.
+identityBuilder.language = KIVLanguage.Dutch;
+```
+
+## How to change the colors of the SDK?
 
 ### Android
 
@@ -205,21 +127,42 @@ Add or edit the file `android/app/src/main/res/values/colors.xml`, add the follo
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="klippa_scanner_sdk_color_Primary">#2dc36a</color>
-    <color name="klippa_scanner_sdk_color_PrimaryDark">#308D53</color>
-    <color name="klippa_scanner_sdk_color_Accent">#2dc36a</color>
-    <color name="klippa_scanner_sdk_color_Overlay">#2dc36a</color>
-    <color name="klippa_scanner_sdk_color_Warning">#BFFF0000</color>
+    <color name="kiv_text_color">#808080</color>
+    <color name="kiv_background_color">#FFFFFF</color>
+    <color name="kiv_button_success_color">#00CC00</color>
+    <color name="kiv_button_error_color">#FF0000</color>
+    <color name="kiv_button_other_color">#333333</color>
+    <color name="kiv_progress_bar_background_color">#EBEFEF</color>
+    <color name="kiv_progress_bar_foreground_color">#00CC00</color>
 </resources>
 ```
 
+You can also replace the fonts by adding the files:
+ - android/app/src/main/res/font/kiv_font.ttf
+ - android/app/src/main/res/font/kiv_font_bold.ttf
+
 ### iOS
-Use the following properties in the config when running `getCameraResult`: `PrimaryColor`, `AccentColor`, `OverlayColor`, `WarningBackgroundColor`, `WarningTextColor`, `OverlayColorAlpha`.
+Use the following properties in the builder:
+
+```dart
+// Colors:
+identityBuilder.colors.textColor = Color.fromARGB(255, 128, 128, 128);
+identityBuilder.colors.backgroundColor = Color.fromARGB(255, 255, 255, 255);
+identityBuilder.colors.buttonSuccessColor = Color.fromARGB(255, 0, 204, 0);
+identityBuilder.colors.buttonErrorColor = Color.fromARGB(255, 255, 0, 0);
+identityBuilder.colors.buttonOtherColor = Color.fromARGB(255, 51, 51, 51);
+identityBuilder.colors.progressBarBackground = Color.fromARGB(255, 235, 239, 239);
+identityBuilder.colors.progressBarForeground = Color.fromARGB(255, 0, 204, 0);
+
+// Fonts:
+identityBuilder.fonts.fontName = 'Avenir Next';
+identityBuilder.fonts.boldFontName = 'Avenir Next';
+```
 
 ## Important iOS notes
 Older iOS versions do not ship the Swift libraries. To make sure the SDK works on older iOS versions, you can configure the build to embed the Swift libraries using the build setting `EMBEDDED_CONTENT_CONTAINS_SWIFT = YES`.
 
-We started using XCFrameworks from version 0.1.0, if you want to use that version or up, you need CocoaPod version 1.9.0 or higher.
+We use XCFrameworks, you need CocoaPod version 1.9.0 or higher to be able to use it.
 
 ## About Klippa
 

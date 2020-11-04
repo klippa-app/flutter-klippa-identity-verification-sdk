@@ -22,7 +22,6 @@ class _MyAppState extends State<MyApp> {
   void _startSession() async {
     String sessionResultText = 'Unknown';
     var identityBuilder = IdentityBuilder();
-    identityBuilder.language = KIVLanguage.Dutch;
     try {
       var sessionResult = await KlippaIdentityVerificationSdk.startSession(identityBuilder, 'test');
       sessionResultText = 'Finished';

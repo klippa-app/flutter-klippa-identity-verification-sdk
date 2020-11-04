@@ -26,6 +26,9 @@ class IdentityBuilder {
   KIVColors colors = new KIVColors();
   KIVFonts fonts = new KIVFonts();
   KIVLanguage language;
+  bool hasIntroScreen;
+  bool hasSuccessScreen;
+  bool isDebug;
 
   setFonts(KIVFonts newFonts) {
     this.fonts = newFonts;
@@ -82,6 +85,18 @@ class KlippaIdentityVerificationSdk {
       if (builder.fonts.fontName != null) {
         parameters['Fonts.fontName'] = builder.fonts.boldFontName;
       }
+    }
+
+    if (builder.hasIntroScreen != null) {
+      parameters['HasIntroScreen'] = builder.hasIntroScreen;
+    }
+
+    if (builder.hasSuccessScreen != null) {
+      parameters['HasSuccessScreen'] = builder.hasSuccessScreen;
+    }
+
+    if (builder.isDebug != null) {
+      parameters['IsDebug'] = builder.isDebug;
     }
 
     final Map startSessionResult = await _channel.invokeMethod('startSession', parameters);
