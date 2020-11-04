@@ -1,0 +1,59 @@
+group 'com.klippa.identity_verification.klippa_identity_validation_sdk'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.3.50'
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+        maven {
+            credentials {
+                username System.getenv()['KLIPPA_IDENTITY_VALIDATION_SDK_USERNAME'] ? System.getenv()['KLIPPA_IDENTITY_VALIDATION_SDK_USERNAME'] : (keystoreProperties["klippa.identity_validation.sdk.username"] ? keystoreProperties["klippa.identity_validation.sdk.username"] : '')
+                password System.getenv()['KLIPPA_IDENTITY_VALIDATION_SDK_PASSWORD'] ? System.getenv()['KLIPPA_IDENTITY_VALIDATION_SDK_PASSWORD'] : (keystoreProperties["klippa.identity_validation.sdk.password"] ? keystoreProperties["klippa.identity_validation.sdk.password"] : '')
+            }
+            url "https://test.custom-ocr.klippa.com/sdk/android/maven"
+        }
+    }
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 29
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    defaultConfig {
+        minSdkVersion 21
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    def klippaIdentityVerificationVersion = project.hasProperty('klippaIdentityVerificationVersion') ? project.klippaIdentityVerificationVersion : "0.0.7-test"
+    implementation "com.klippa:identity_verification:$klippaIdentityVerificationVersion"
+}
