@@ -1,4 +1,4 @@
-group 'com.klippa.identity_verification.klippa_identity_validation_sdk'
+group 'com.klippa.identity_verification.klippa_identity_verification_sdk'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -27,8 +27,8 @@ rootProject.allprojects {
         maven { url "https://jitpack.io" }
         maven {
             credentials {
-                username System.getenv()['KLIPPA_IDENTITY_VALIDATION_SDK_USERNAME'] ? System.getenv()['KLIPPA_IDENTITY_VALIDATION_SDK_USERNAME'] : (keystoreProperties["klippa.identity_validation.sdk.username"] ? keystoreProperties["klippa.identity_validation.sdk.username"] : '')
-                password System.getenv()['KLIPPA_IDENTITY_VALIDATION_SDK_PASSWORD'] ? System.getenv()['KLIPPA_IDENTITY_VALIDATION_SDK_PASSWORD'] : (keystoreProperties["klippa.identity_validation.sdk.password"] ? keystoreProperties["klippa.identity_validation.sdk.password"] : '')
+                username System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] ? System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] : (keystoreProperties["klippa.identity_verification.sdk.username"] ? keystoreProperties["klippa.identity_verification.sdk.username"] : '')
+                password System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] ? System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] : (keystoreProperties["klippa.identity_verification.sdk.password"] ? keystoreProperties["klippa.identity_verification.sdk.password"] : '')
             }
             url "https://test.custom-ocr.klippa.com/sdk/android/maven"
         }

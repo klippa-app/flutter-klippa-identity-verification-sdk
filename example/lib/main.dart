@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:klippa_identity_validation_sdk/klippa_identity_validation_sdk.dart';
+import 'package:klippa_identity_verification_sdk/klippa_identity_verification_sdk.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _idValidationResult = 'Unknown';
+  String _idVerificationResult = 'Unknown';
 
   @override
   void initState() {
@@ -24,14 +24,14 @@ class _MyAppState extends State<MyApp> {
     var identityBuilder = IdentityBuilder();
     identityBuilder.language = KIVLanguage.Dutch;
     try {
-      var sessionResult = await KlippaIdentityValidationSdk.startSession(identityBuilder, 'test');
+      var sessionResult = await KlippaIdentityVerificationSdk.startSession(identityBuilder, 'test');
       sessionResultText = 'Finished';
     } on PlatformException catch (e) {
       sessionResultText = 'Failed to start session: ' + e.toString();
     }
 
     setState(() {
-      _idValidationResult = sessionResultText;
+      _idVerificationResult = sessionResultText;
     });
 
     if (!mounted) return;
@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('ID validation result: $_idValidationResult\n'),
+          child: Text('ID verification result: $_idVerificationResult\n'),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: _startSession,

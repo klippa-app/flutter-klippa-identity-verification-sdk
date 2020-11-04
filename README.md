@@ -10,8 +10,8 @@ If you would like to use our Identity Verification SDK, please contact us [here]
 Edit the file `android/key.properties`, if it doesn't exist yet, create it. Add the SDK credentials:
 
 ```
-klippa.identity_validation.sdk.username={your-username}
-klippa.identity_validation.sdk.password={your-password}
+klippa.identity_verification.sdk.username={your-username}
+klippa.identity_verification.sdk.password={your-password}
 ```
 
 Replace the `{your-username}` and `{your-password}` values with the ones provided by Klippa.
@@ -45,13 +45,7 @@ Edit the file `ios/{project-name}/Info.plist` and add the `NSCameraUsageDescript
 
 ### Flutter
 
-`$ npm install @klippa/react-native-klippa-scanner-sdk --save`
-
-Don't forget to run `pod install` in the ios folder when running the iOS app.
-
-### Mostly automatic installation (only for versions of React Native lower than 0.60, later versions have auto-linking)
-
-`$ react-native link @klippa/react-native-klippa-scanner-sdk`
+Add `
 
 ## Usage
 ```javascript

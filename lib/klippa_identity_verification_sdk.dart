@@ -40,9 +40,9 @@ class IdentityBuilder {
   }
 }
 
-class KlippaIdentityValidationSdk {
+class KlippaIdentityVerificationSdk {
   static const MethodChannel _channel =
-      const MethodChannel('klippa_identity_validation_sdk');
+      const MethodChannel('klippa_identity_verification_sdk');
 
   static Future<Map> startSession(IdentityBuilder builder, String sessionToken) async {
     Map<String, dynamic> parameters = {};

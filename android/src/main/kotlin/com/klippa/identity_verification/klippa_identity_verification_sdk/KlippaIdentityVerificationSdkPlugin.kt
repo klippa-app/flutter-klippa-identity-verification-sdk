@@ -1,4 +1,4 @@
-package com.klippa.identity_verification.klippa_identity_validation_sdk
+package com.klippa.identity_verification.klippa_identity_verification_sdk
 
 import android.app.Activity
 import android.content.Intent
@@ -15,8 +15,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 
-/** KlippaIdentityValidationSdkPlugin */
-class KlippaIdentityValidationSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener {
+/** KlippaIdentityVerificationSdkPlugin */
+class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -34,7 +34,7 @@ class KlippaIdentityValidationSdkPlugin: FlutterPlugin, MethodCallHandler, Activ
   private var resultHandler : Result? = null
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "klippa_identity_validation_sdk")
+    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "klippa_identity_verification_sdk")
     channel.setMethodCallHandler(this)
   }
 

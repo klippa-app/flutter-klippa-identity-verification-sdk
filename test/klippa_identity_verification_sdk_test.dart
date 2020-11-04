@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:klippa_identity_validation_sdk/klippa_identity_validation_sdk.dart';
+import 'package:klippa_identity_verification_sdk/klippa_identity_verification_sdk.dart';
 
 void main() {
-  const MethodChannel channel = MethodChannel('klippa_identity_validation_sdk');
+  const MethodChannel channel = MethodChannel('klippa_identity_verification_sdk');
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await KlippaIdentityValidationSdk.platformVersion, '42');
+    expect(await KlippaIdentityVerificationSdk.platformVersion, '42');
   });
 }

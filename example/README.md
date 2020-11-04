@@ -1,6 +1,6 @@
-# klippa_identity_validation_sdk_example
+# klippa_identity_verification_sdk_example
 
-Demonstrates how to use the klippa_identity_validation_sdk plugin.
+Demonstrates how to use the klippa_identity_verification_sdk plugin.
 
 ## Getting Started
 

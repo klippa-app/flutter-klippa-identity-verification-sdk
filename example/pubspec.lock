@@ -67,7 +67,7 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  klippa_identity_validation_sdk:
+  klippa_identity_verification_sdk:
     dependency: "direct main"
     description:
       path: ".."
