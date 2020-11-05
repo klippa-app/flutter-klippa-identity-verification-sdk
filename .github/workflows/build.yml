@@ -23,6 +23,10 @@ jobs:
       - run: flutter pub get
       - run: flutter build apk
         working-directory: ./example
+        env:
+          KLIPPA_IDENTITY_VERIFICATION_SDK_URL: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_URL }}
+          KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME }}
+          KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD }}
   build-osx:
     name: Test on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
@@ -42,5 +46,13 @@ jobs:
       - run: flutter pub get
       - run: flutter build apk
         working-directory: ./example
+        env:
+          KLIPPA_IDENTITY_VERIFICATION_SDK_URL: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_URL }}
+          KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME }}
+          KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD }}
       - run: flutter build appbundle
         working-directory: ./example
+        env:
+          KLIPPA_IDENTITY_VERIFICATION_SDK_URL: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_URL }}
+          KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME }}
+          KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD }}
