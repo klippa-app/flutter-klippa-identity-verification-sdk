@@ -85,6 +85,21 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
         }
       }
 
+      if (call.hasArgument("HasIntroScreen")) {
+        val hasIntroScreen = call.argument<Boolean>("HasIntroScreen")!!
+        builder.hasIntroScreen = hasIntroScreen
+      }
+
+      if (call.hasArgument("HasSuccessScreen")) {
+        val hasSuccessScreen = call.argument<Boolean>("HasSuccessScreen")!!
+        builder.hasSuccessScreen = hasSuccessScreen
+      }
+
+      if (call.hasArgument("IsDebug")) {
+        val isDebug = call.argument<Boolean>("IsDebug")!!
+        builder.isDebug = isDebug
+      }
+
       val intent = builder.getIntent(activityPluginBinding!!.activity)
       resultHandler = result
       activityPluginBinding!!.addActivityResultListener(this)
