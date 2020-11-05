@@ -1,5 +1,13 @@
 # flutter-klippa-identity-verification-sdk
 
+[![Dart version][dart-version]][dart-url]
+[![Build Status][build-status]][build-url]
+
+[build-status]:https://github.com/klippa-app/flutter-klippa-identity-verification-sdk/workflows/Build%20CI/badge.svg
+[build-url]:https://github.com/klippa-app/nativescript-http/actions
+[dart-version]:https://img.shields.io/pub/v/klippa_identity_verification_sdk.svg
+[dart-url]:https://pub.dev/packages/klippa_identity_verification_sdk/versions/0.0.1
+
 ## SDK usage
 Please be aware you need to have a Klippa Identity Verification OCR API key to use this SDK.
 If you would like to use our Identity Verification SDK, please contact us [here](https://www.klippa.com/en/ocr/identity-documents/)
