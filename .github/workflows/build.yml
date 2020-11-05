@@ -21,7 +21,6 @@ jobs:
       - run: dart --version
       - run: flutter --version
       - run: flutter pub get
-      - run: cd example
       - run: flutter build apk
         working-directory: ./example
   build-osx:
