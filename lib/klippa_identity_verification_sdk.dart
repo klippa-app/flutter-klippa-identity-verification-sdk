@@ -74,7 +74,10 @@ class IdentityBuilder {
   }
 }
 
+/// A helper to convert flutter Color to a hex ARGB.
 class KIVHexColor {
+
+  /// Convert the given Flutter Color object to a hex ARGB string.
   static String flutterColorToHex(Color color, bool leadingHashSign) {
     return '${leadingHashSign ? '#' : ''}'
         '${color.alpha.toRadixString(16).padLeft(2, '0')}'
