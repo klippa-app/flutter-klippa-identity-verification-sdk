@@ -74,6 +74,16 @@ class IdentityBuilder {
   }
 }
 
+class KIVHexColor {
+  static String flutterColorToHex(Color color, bool leadingHashSign) {
+    return '${leadingHashSign ? '#' : ''}'
+        '${color.alpha.toRadixString(16).padLeft(2, '0')}'
+        '${color.red.toRadixString(16).padLeft(2, '0')}'
+        '${color.green.toRadixString(16).padLeft(2, '0')}'
+        '${color.blue.toRadixString(16).padLeft(2, '0')}';
+  }
+}
+
 /// The main plugin class.
 class KlippaIdentityVerificationSdk {
   static const MethodChannel _channel =
@@ -90,40 +100,43 @@ class KlippaIdentityVerificationSdk {
 
     if (builder.colors != null) {
       if (builder.colors.textColor != null) {
-        parameters['Colors.textColor'] = builder.colors.textColor.toString();
+        parameters['Colors.textColor'] =
+            KIVHexColor.flutterColorToHex(builder.colors.textColor, true);
       }
       if (builder.colors.backgroundColor != null) {
         parameters['Colors.backgroundColor'] =
-            builder.colors.backgroundColor.toString();
+            KIVHexColor.flutterColorToHex(builder.colors.backgroundColor, true);
       }
       if (builder.colors.buttonSuccessColor != null) {
-        parameters['Colors.buttonSuccessColor'] =
-            builder.colors.buttonSuccessColor.toString();
+        parameters['Colors.buttonSuccessColor'] = KIVHexColor.flutterColorToHex(
+            builder.colors.buttonSuccessColor, true);
       }
       if (builder.colors.buttonErrorColor != null) {
-        parameters['Colors.buttonErrorColor'] =
-            builder.colors.buttonErrorColor.toString();
+        parameters['Colors.buttonErrorColor'] = KIVHexColor.flutterColorToHex(
+            builder.colors.buttonErrorColor, true);
       }
       if (builder.colors.buttonOtherColor != null) {
-        parameters['Colors.buttonOtherColor'] =
-            builder.colors.buttonOtherColor.toString();
+        parameters['Colors.buttonOtherColor'] = KIVHexColor.flutterColorToHex(
+            builder.colors.buttonOtherColor, true);
       }
       if (builder.colors.progressBarBackground != null) {
         parameters['Colors.progressBarBackground'] =
-            builder.colors.progressBarBackground.toString();
+            KIVHexColor.flutterColorToHex(
+                builder.colors.progressBarBackground, true);
       }
       if (builder.colors.progressBarForeground != null) {
         parameters['Colors.progressBarForeground'] =
-            builder.colors.progressBarForeground.toString();
+            KIVHexColor.flutterColorToHex(
+                builder.colors.progressBarForeground, true);
       }
     }
 
     if (builder.fonts != null) {
       if (builder.fonts.fontName != null) {
-        parameters['Colors.fontName'] = builder.fonts.fontName;
+        parameters['Fonts.fontName'] = builder.fonts.fontName;
       }
-      if (builder.fonts.fontName != null) {
-        parameters['Fonts.fontName'] = builder.fonts.boldFontName;
+      if (builder.fonts.boldFontName != null) {
+        parameters['Fonts.boldFontName'] = builder.fonts.boldFontName;
       }
     }
 

@@ -6,7 +6,7 @@
 [build-status]:https://github.com/klippa-app/flutter-klippa-identity-verification-sdk/workflows/Build%20CI/badge.svg
 [build-url]:https://github.com/klippa-app/nativescript-http/actions
 [dart-version]:https://img.shields.io/pub/v/klippa_identity_verification_sdk.svg
-[dart-url]:https://pub.dev/packages/klippa_identity_verification_sdk/versions/0.0.1
+[dart-url]:https://pub.dev/packages/klippa_identity_verification_sdk
 
 ## SDK usage
 Please be aware you need to have a Klippa Identity Verification OCR API key to use this SDK.
@@ -28,14 +28,19 @@ Replace the `{your-username}` and `{your-password}` values with the ones provide
 
 Edit the file `ios/Podfile`, add the Klippa CocoaPod:
 ```
-// Edit the platform to a minimum of 10.0, our SDK doesn't support earlier iOS versions.
-platform :ios, '10.0'
+// Add this to the top of your file:
+// Edit the platform to a minimum of 11.0, our SDK doesn't support earlier iOS versions.
+platform :ios, '11.0'
+ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = 'https://test.custom-ocr.klippa.com/sdk/ios/specrepo'
+ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] = '{your-username}'
+ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] = '{your-password}'
+ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = '0.0.5-test'
 
-target 'YourApplicationName' do
-  # Pods for YourApplicationName
-  // ... other pods
+// Edit the Runner config to add the pod:
+target 'Runner' do
+  // ... other instructions
 
-  pod 'Klippa-Identity-Verification', podspec: 'https://custom-ocr.klippa.com/sdk/ios/specrepo/{your-username}/{your-password}/KlippaIdentityVerification/0.0.5.podspec'
+  pod 'Klippa-Identity-Verification', podspec: "#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL']}/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME']}/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD']}/KlippaIdentityVerification/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION']}.podspec"
 end
 ```
 
@@ -96,7 +101,7 @@ Replace the `{version}` value with the version you want to use.
 
 ### iOS
 
-Edit the file `ios/Podfile`, change the pod line of `Klippa-Identity-Verification` and replace `0.0.5.podspec` with `{version}.podspec`, replace the `{version}` value with the version you want to use.
+Edit the file `ios/Podfile`, change the pod line of `ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION']` and give it the name of the version you want to use.
 
 ## How to change the setup of the SDK:
 
