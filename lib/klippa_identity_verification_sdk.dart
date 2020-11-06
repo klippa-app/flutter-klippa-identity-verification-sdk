@@ -58,17 +58,17 @@ class IdentityBuilder {
   /// Whether the SDK should report debug information.
   bool isDebug;
 
-  /// Overwrite the fonts object with a new one.
+  /// Overwrite the fonts object with [newFonts] for the builder.
   setFonts(KIVFonts newFonts) {
     this.fonts = newFonts;
   }
 
-  /// Overwrite the colors object with a new one.
+  /// Overwrite the colors object with [newColors] for the builder.
   setColors(KIVColors newColors) {
     this.colors = newColors;
   }
 
-  /// Overwrite the language for the builder.
+  /// Overwrite the language with [newLanguage] for the builder.
   setLanguage(KIVLanguage newLanguage) {
     this.language = newLanguage;
   }
@@ -76,8 +76,7 @@ class IdentityBuilder {
 
 /// A helper to convert flutter Color to a hex ARGB.
 class KIVHexColor {
-
-  /// Convert the given Flutter Color object to a hex ARGB string.
+  /// Convert the given Flutter [color] object to a hex ARGB string. With our without a leading hash sign based on [leadingHashSign].
   static String flutterColorToHex(Color color, bool leadingHashSign) {
     return '${leadingHashSign ? '#' : ''}'
         '${color.alpha.toRadixString(16).padLeft(2, '0')}'
@@ -92,7 +91,7 @@ class KlippaIdentityVerificationSdk {
   static const MethodChannel _channel =
       const MethodChannel('klippa_identity_verification_sdk');
 
-  /// Start the session given a builder and a session.
+  /// Start the session given a [builder] and a [sessionToken].
   static Future<Map> startSession(
       IdentityBuilder builder, String sessionToken) async {
     Map<String, dynamic> parameters = {};
