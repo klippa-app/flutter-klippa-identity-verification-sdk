@@ -62,7 +62,7 @@ jobs:
           KLIPPA_IDENTITY_VERIFICATION_SDK_URL: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_URL_ANDROID }}
           KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME }}
           KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD }}
-      - run: flutter build ios
+      - run: flutter build ios --simulator --no-codesign
         working-directory: ./example
         env:
           KLIPPA_IDENTITY_VERIFICATION_SDK_URL: ${{ secrets.KLIPPA_IDENTITY_VERIFICATION_SDK_URL_IOS }}
