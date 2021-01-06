@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Minor bugfix for activating the Spanish language on iOS
+
 ## 0.0.4
 
 * Bump Android SDK version to 0.0.15

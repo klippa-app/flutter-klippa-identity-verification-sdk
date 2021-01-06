@@ -44,7 +44,10 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
                 builder.kivLanguage = IdentityBuilder.KIVLanguage.English
             } else if (language == "KIVLanguage.Dutch") {
                 builder.kivLanguage = IdentityBuilder.KIVLanguage.Dutch
+            } else if (language == "KIVLanguage.Spanish") {
+                builder.kivLanguage = IdentityBuilder.KIVLanguage.Spanish
             }
+
         }
         
         if (builderArgs?["HasIntroScreen"] != nil) {
