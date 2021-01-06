@@ -34,7 +34,7 @@ platform :ios, '11.0'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = 'https://test.custom-ocr.klippa.com/sdk/ios/specrepo'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] = '{your-username}'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] = '{your-password}'
-ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = '0.0.5-test'
+ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = '0.0.6-test'
 
 // Edit the Runner config to add the pod:
 target 'Runner' do
@@ -127,9 +127,11 @@ identityBuilder.hasSuccessScreen = true;
 Add the following to the builder:
 
 ```dart
-// We support Dutch and English.
+// We support English, Dutch and Spanish.
 identityBuilder.language = KIVLanguage.Dutch;
 ```
+
+When no language is given we try to detect the language of the device and use that if we support it.
 
 ## How to change the colors of the SDK?
 

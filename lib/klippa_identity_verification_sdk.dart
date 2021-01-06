@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/services.dart';
 
 /// Available languages for the Identity Verification SDK.
-enum KIVLanguage { English, Dutch }
+enum KIVLanguage { English, Dutch, Spanish }
 
 /// Custom fonts for the SDK.
 class KIVFonts {

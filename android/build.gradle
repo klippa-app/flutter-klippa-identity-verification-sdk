@@ -54,6 +54,6 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    def klippaIdentityVerificationVersion = project.hasProperty('klippaIdentityVerificationVersion') ? project.klippaIdentityVerificationVersion : "0.0.12-test"
+    def klippaIdentityVerificationVersion = project.hasProperty('klippaIdentityVerificationVersion') ? project.klippaIdentityVerificationVersion : "0.0.15-test"
     implementation "com.klippa:identity_verification:$klippaIdentityVerificationVersion"
 }

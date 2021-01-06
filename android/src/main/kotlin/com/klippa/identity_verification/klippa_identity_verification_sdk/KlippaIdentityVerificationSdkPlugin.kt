@@ -82,6 +82,8 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
           builder.language = IdentityBuilder.KIVLanguage.English
         } else if (language == "KIVLanguage.Dutch") {
           builder.language = IdentityBuilder.KIVLanguage.Dutch
+        } else if (language == "KIVLanguage.Spanish") {
+          builder.language = IdentityBuilder.KIVLanguage.Spanish
         }
       }
 

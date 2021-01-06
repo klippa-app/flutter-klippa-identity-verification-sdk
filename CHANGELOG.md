@@ -1,3 +1,13 @@
+## 0.0.4
+
+* Bump Android SDK version to 0.0.15
+* Bump iOS SDK version to 0.0.6
+* Add support for Spanish
+
+## 0.0.3
+
+* Bump Android SDK version to 0.0.12 to fix API calls
+
 ## 0.0.2
 
 * iOS support, formatting, documentation
