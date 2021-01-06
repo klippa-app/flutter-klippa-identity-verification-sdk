@@ -1,6 +1,7 @@
 ## 0.0.5
 
 * Minor bugfix for activating the Spanish language on iOS
+* Fix iOS example Info.plist to make the camera work
 
 ## 0.0.4
 
