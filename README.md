@@ -31,14 +31,21 @@ Edit the file `ios/Podfile`, add the Klippa CocoaPod:
 // Add this to the top of your file:
 // Edit the platform to a minimum of 11.0, our SDK doesn't support earlier iOS versions.
 platform :ios, '11.0'
-ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = 'https://test.custom-ocr.klippa.com/sdk/ios/specrepo'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] = '{your-username}'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] = '{your-password}'
-ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = '0.0.6-test'
 
 // Edit the Runner config to add the pod:
 target 'Runner' do
   // ... other instructions
+
+  // Add this below flutter_install_all_ios_pods
+  if "#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL']}" == ""
+    ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = File.read(File.join(File.dirname(File.realpath(__FILE__)), '.symlinks', 'plugins', 'klippa_identity_verification_sdk', 'ios', '.sdk_repo')).strip
+  end
+
+  if "#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION']}" == ""
+    ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = File.read(File.join(File.dirname(File.realpath(__FILE__)), '.symlinks', 'plugins', 'klippa_identity_verification_sdk', 'ios', '.sdk_version')).strip
+  end
 
   pod 'Klippa-Identity-Verification', podspec: "#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL']}/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME']}/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD']}/KlippaIdentityVerification/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION']}.podspec"
 end
@@ -99,9 +106,36 @@ allprojects {
 
 Replace the `{version}` value with the version you want to use.
 
+If you want to change the repository:
+
+Edit the file `android/key.properties`, add the SDK repository URL:
+
+```
+klippa.identity_verification.sdk.url={repository-url}
+```
+
+Replace `{repository-url}` with the URL that you want to use.
+
 ### iOS
 
-Edit the file `ios/Podfile`, change the pod line of `ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION']` and give it the name of the version you want to use.
+Edit the file `ios/Podfile`, add the following line below the username/password if you want to change the version:
+
+```
+ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = '{version}'
+```
+
+Replace {version} with the version that you want to use.
+
+If you want to change the repository:
+
+Edit the file `ios/Podfile`, add the following line below the username/password if you want to change the URL:
+
+```
+ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = '{repository-url}'
+```
+
+Replace `{repository-url}` with the URL that you want to use.
+
 
 ## How to change the setup of the SDK:
 
