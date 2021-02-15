@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Add way of including an iOS SDK version and repository URL from the project itself so that we also have a version that works with this plugin
+
 ## 0.0.5
 
 * Minor bugfix for activating the Spanish language on iOS
