@@ -109,6 +109,16 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
             let boldFontName = builderArgs?["Fonts.boldFontName"] as? String ?? ""
             builder.kivFonts.boldFontName = boldFontName
         }
+
+        if (builderArgs?["VerifyIncludeList"] != nil) {
+            let includeList = builderArgs?["VerifyIncludeList"] as? [String] ?? []
+            builder.kivVerifyIncludeList = includeList
+        } 
+
+        if (builderArgs?["VerifyExcludeList"] != nil) {
+            let excludeList = builderArgs?["VerifyExcludeList"] as? [String] ?? []
+            builder.kivVerifyExcludeList = excludeList
+        } 
         
         resultHandler = result
         let viewController = builder.build()
@@ -148,6 +158,11 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
     
     public func canceled() {
         resultHandler!(FlutterError.init(code: E_CANCELED, message: "The user canceled", details: nil));
+        resultHandler = nil;
+    }
+
+    public func contactSupportPressed() {
+        resultHandler!(FlutterError.init(code: E_CANCELED, message: "The user pressed contact support", details: nil));
         resultHandler = nil;
     }
 }

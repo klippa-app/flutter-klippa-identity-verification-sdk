@@ -30,7 +30,7 @@ rootProject.allprojects {
                 username System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] ? System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] : (keystoreProperties["klippa.identity_verification.sdk.username"] ? keystoreProperties["klippa.identity_verification.sdk.username"] : '')
                 password System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] ? System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] : (keystoreProperties["klippa.identity_verification.sdk.password"] ? keystoreProperties["klippa.identity_verification.sdk.password"] : '')
             }
-            url System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] ? System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] : (keystoreProperties["klippa.identity_verification.sdk.url"] ? keystoreProperties["klippa.identity_verification.sdk.url"] : 'https://test.custom-ocr.klippa.com/sdk/android/maven')
+            url System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] ? System.getenv()['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] : (keystoreProperties["klippa.identity_verification.sdk.url"] ? keystoreProperties["klippa.identity_verification.sdk.url"] : 'https://custom-ocr.klippa.com/sdk/android/maven')
         }
     }
 }
@@ -54,6 +54,6 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    def klippaIdentityVerificationVersion = project.hasProperty('klippaIdentityVerificationVersion') ? project.klippaIdentityVerificationVersion : "0.0.15-test"
+    def klippaIdentityVerificationVersion = project.hasProperty('klippaIdentityVerificationVersion') ? project.klippaIdentityVerificationVersion : "0.1.0"
     implementation "com.klippa:identity_verification:$klippaIdentityVerificationVersion"
 }

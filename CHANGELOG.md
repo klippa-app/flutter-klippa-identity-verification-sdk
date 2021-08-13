@@ -1,3 +1,8 @@
+## 0.0.7
+
+* Bump Android SDK version to 0.1.0
+* Bump iOS SDK version to 0.1.0
+
 ## 0.0.6
 
 * Add way of including an iOS SDK version and repository URL from the project itself so that we also have a version that works with this plugin
