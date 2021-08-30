@@ -102,7 +102,7 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
       }
 
       if (call.hasArgument("VerifyIncludeList")) {
-        val include = call.argument<List<String>>("VerifyIxcludeList")!!
+        val include = call.argument<List<String>>("VerifyIncludeList")!!
         builder.kivIncludeList = include
       }
 
