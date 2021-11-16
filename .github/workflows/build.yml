@@ -21,7 +21,7 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           SDKMANAGER=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
-          yes | SDKMANAGER --install "ndk;20.1.5948944"
+          yes | $SDKMANAGER --install "ndk;20.1.5948944"
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
