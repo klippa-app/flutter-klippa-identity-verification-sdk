@@ -13,7 +13,7 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     steps:
       - name: Change NDK version linux
-        if: ${{ matrix.os == "ubuntu-latest" }}
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
           SDKMANAGER=$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager
           echo y | $SDKMANAGER --install "ndk;20.1.5948944"
