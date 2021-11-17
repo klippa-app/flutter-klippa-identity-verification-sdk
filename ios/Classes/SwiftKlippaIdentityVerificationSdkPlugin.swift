@@ -7,6 +7,7 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
     private var E_MISSING_SESSION_TOKEN = "E_MISSING_SESSION_TOKEN"
     private var E_FAILED_TO_SHOW_SESSION = "E_FAILED_TO_SHOW_SESSION"
     private var E_CANCELED = "E_CANCELED"
+    private var E_SUPPORT_PRESSED = "E_SUPPORT_PRESSED"
     private var E_UNKNOWN_ERROR = "E_UNKNOWN_ERROR"
     
     
@@ -109,6 +110,16 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
             let boldFontName = builderArgs?["Fonts.boldFontName"] as? String ?? ""
             builder.kivFonts.boldFontName = boldFontName
         }
+
+        if (builderArgs?["VerifyIncludeList"] != nil) {
+            let includeList = builderArgs?["VerifyIncludeList"] as? [String] ?? []
+            builder.kivVerifyIncludeList = includeList
+        } 
+
+        if (builderArgs?["VerifyExcludeList"] != nil) {
+            let excludeList = builderArgs?["VerifyExcludeList"] as? [String] ?? []
+            builder.kivVerifyExcludeList = excludeList
+        } 
         
         resultHandler = result
         let viewController = builder.build()
@@ -148,6 +159,11 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
     
     public func canceled() {
         resultHandler!(FlutterError.init(code: E_CANCELED, message: "The user canceled", details: nil));
+        resultHandler = nil;
+    }
+
+    public func contactSupportPressed() {
+        resultHandler!(FlutterError.init(code: E_SUPPORT_PRESSED, message: "The user pressed contact support", details: nil));
         resultHandler = nil;
     }
 }
