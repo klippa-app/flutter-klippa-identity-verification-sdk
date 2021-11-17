@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'klippa_identity_verification_sdk'
-  s.version          = '0.0.1'
+  s.version          = '0.0.6'
   s.summary          = 'Allows you to do identity verification with the Klippa Identity Verification SDK from Flutter apps.'
   s.description      = <<-DESC
 Allows you to do identity verification with the Klippa Identity Verification SDK from Flutter apps.
@@ -16,5 +16,5 @@ Allows you to do identity verification with the Klippa Identity Verification SDK
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
-  s.swift_version = '5.0'
+  s.swift_version = '5.5.1'
 end
