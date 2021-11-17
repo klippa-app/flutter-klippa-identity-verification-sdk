@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import androidx.annotation.NonNull
-import androidx.core.content.ContextCompat
 import com.klippa.identity_verification.modules.base.IdentityBuilder
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -74,7 +73,7 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
         return
       }
 
-      val builder =  IdentityBuilder(null, call.argument<String>("SessionToken")!!)
+      val builder = IdentityBuilder(null, call.argument<String>("SessionToken")!!)
 
       if (call.hasArgument("Language")) {
         val language = call.argument<String>("Language")!!
@@ -100,6 +99,16 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
       if (call.hasArgument("IsDebug")) {
         val isDebug = call.argument<Boolean>("IsDebug")!!
         builder.isDebug = isDebug
+      }
+
+      if (call.hasArgument("VerifyIncludeList")) {
+        val include = call.argument<List<String>>("VerifyIncludeList")!!
+        builder.kivIncludeList = include
+      }
+
+      if (call.hasArgument("VerifyExcludeList")) {
+        val exclude = call.argument<List<String>>("VerifyExcludeList")!!
+        builder.kivExcludeList = exclude
       }
 
       val intent = builder.getIntent(activityPluginBinding!!.activity)
@@ -132,7 +141,6 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
 
       return true;
     }
-
     return false;
   }
 }

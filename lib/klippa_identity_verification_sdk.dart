@@ -46,6 +46,12 @@ class IdentityBuilder {
   /// The fonts that the SDK uses.
   KIVFonts fonts = new KIVFonts();
 
+  /// The list of items to include in the data verification screen.
+  List<String> verifyIncludeList;
+
+  /// The list of items to exclude in the data verification screen.
+  List<String> verifyExcludeList;
+
   /// The language that the SDK uses.
   KIVLanguage language;
 
@@ -152,6 +158,14 @@ class KlippaIdentityVerificationSdk {
 
     if (builder.isDebug != null) {
       parameters['IsDebug'] = builder.isDebug;
+    }
+
+    if (builder.verifyIncludeList != null) {
+      parameters['VerifyIncludeList'] = builder.verifyIncludeList;
+    }
+
+    if (builder.verifyExcludeList != null) {
+      parameters['VerifyExcludeList'] = builder.verifyExcludeList;
     }
 
     final Map startSessionResult =
