@@ -4,7 +4,7 @@
 [![Build Status][build-status]][build-url]
 
 [build-status]:https://github.com/klippa-app/flutter-klippa-identity-verification-sdk/workflows/Build%20CI/badge.svg
-[build-url]:https://github.com/klippa-app/nativescript-http/actions
+[build-url]:https://github.com/klippa-app/flutter-klippa-identity-verification-sdk
 [dart-version]:https://img.shields.io/pub/v/klippa_identity_verification_sdk.svg
 [dart-url]:https://pub.dev/packages/klippa_identity_verification_sdk
 
