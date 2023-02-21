@@ -29,8 +29,8 @@ Replace the `{your-username}` and `{your-password}` values with the ones provide
 Edit the file `ios/Podfile`, add the Klippa CocoaPod:
 ```
 // Add this to the top of your file:
-// Edit the platform to a minimum of 11.0, our SDK doesn't support earlier iOS versions.
-platform :ios, '11.0'
+// Edit the platform to a minimum of 13.0, our SDK doesn't support earlier iOS versions.
+platform :ios, '13.0'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] = '{your-username}'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] = '{your-password}'
 
