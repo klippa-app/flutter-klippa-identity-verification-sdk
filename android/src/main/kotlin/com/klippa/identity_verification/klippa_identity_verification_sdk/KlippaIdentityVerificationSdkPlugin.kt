@@ -1,7 +1,6 @@
 package com.klippa.identity_verification.klippa_identity_verification_sdk
 
 import android.util.Log
-import androidx.annotation.NonNull
 import com.klippa.identity_verification.model.KlippaError
 import com.klippa.identity_verification.modules.base.IdentityBuilder
 import com.klippa.identity_verification.modules.base.IdentityBuilder.IdentityBuilderListener
@@ -14,7 +13,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** KlippaIdentityVerificationSdkPlugin */
-class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, IdentityBuilderListener {
+class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -29,9 +28,29 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
     private const val E_FAILED_TO_SHOW_SESSION = "E_FAILED_TO_SHOW_SESSION"
     private const val E_CANCELED = "E_CANCELED"
     private const val E_SUPPORT_PRESSED = "E_CONTACT_SUPPORT_PRESSED"
-    private const val SESSION_REQUEST_CODE = 9293
   }
 
+
+  private val listener = object: IdentityBuilderListener {
+    override fun identityVerificationFinished() {
+      resultHandler?.success(null)
+    }
+
+    override fun identityVerificationCanceled(error: KlippaError) {
+      val err = when (error) {
+        KlippaError.InsufficientPermissions -> "Insufficient permissions"
+        KlippaError.InvalidSessionToken -> "Invalid session token"
+        KlippaError.UserCanceled -> "User canceled session"
+        KlippaError.NoInternetConnection -> "No internet connection"
+      }
+
+      resultHandler?.error(E_CANCELED, err, null)
+    }
+
+    override fun identityVerificationContactSupportPressed() {
+      resultHandler?.error(E_SUPPORT_PRESSED, "Contact support pressed", null)
+    }
+  }
 
 
   private var resultHandler : Result? = null
@@ -77,7 +96,7 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
         return
       }
 
-      val builder = IdentityBuilder(this, call.argument<String>("SessionToken")!!)
+      val builder = IdentityBuilder(listener, call.argument<String>("SessionToken")!!)
 
       if (call.hasArgument("Language")) {
         val language = call.argument<String>("Language")!!
@@ -127,22 +146,4 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
     channel.setMethodCallHandler(null)
   }
 
-  override fun identityVerificationFinished() {
-    resultHandler?.success(null)
-  }
-
-  override fun identityVerificationCanceled(error: KlippaError) {
-    val err = when (error) {
-      KlippaError.InsufficientPermissions -> "Insufficient permissions"
-      KlippaError.InvalidSessionToken -> "Invalid session token"
-      KlippaError.UserCanceled -> "User canceled session"
-      KlippaError.NoInternetConnection -> "No internet connection"
-    }
-
-    resultHandler?.error(E_CANCELED, err, null)
-  }
-
-  override fun identityVerificationContactSupportPressed() {
-    resultHandler?.error(E_SUPPORT_PRESSED, "Contact support pressed", null)
-  }
 }
