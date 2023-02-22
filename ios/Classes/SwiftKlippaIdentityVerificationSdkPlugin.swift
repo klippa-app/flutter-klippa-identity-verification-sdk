@@ -123,8 +123,8 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
         
         resultHandler = result
         let viewController = builder.build()
-        
-        let rootViewController:UIViewController! = UIApplication.shared.keyWindow?.rootViewController
+
+        let rootViewController = UIApplication.shared.windows.last!.rootViewController!
         rootViewController.present(viewController, animated:true, completion:nil)
     }
     
@@ -150,20 +150,21 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
         
         return nil
     }
-    
-    public func finishedWithSuccess(response: KIVResult) {
+
+    public func identityVerificationFinished() {
         let resultMap = Dictionary<String, Any>.init()
         resultHandler!(resultMap)
         resultHandler = nil;
     }
-    
-    public func canceled() {
+
+    public func identityVerificationCanceled(withError error: KlippaError) {
         resultHandler!(FlutterError.init(code: E_CANCELED, message: "The user canceled", details: nil));
         resultHandler = nil;
     }
 
-    public func contactSupportPressed() {
+    public func identityVerificationContactSupportPressed() {
         resultHandler!(FlutterError.init(code: E_SUPPORT_PRESSED, message: "The user pressed contact support", details: nil));
         resultHandler = nil;
     }
+
 }
