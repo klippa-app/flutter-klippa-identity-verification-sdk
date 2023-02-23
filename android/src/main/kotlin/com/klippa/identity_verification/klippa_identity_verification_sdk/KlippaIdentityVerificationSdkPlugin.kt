@@ -1,10 +1,9 @@
 package com.klippa.identity_verification.klippa_identity_verification_sdk
 
-import android.app.Activity
-import android.content.Intent
 import android.util.Log
-import androidx.annotation.NonNull
+import com.klippa.identity_verification.model.KlippaError
 import com.klippa.identity_verification.modules.base.IdentityBuilder
+import com.klippa.identity_verification.modules.base.IdentityBuilder.IdentityBuilderListener
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -12,10 +11,9 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.PluginRegistry
 
 /** KlippaIdentityVerificationSdkPlugin */
-class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.ActivityResultListener {
+class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -24,15 +22,40 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
 
   private var activityPluginBinding : ActivityPluginBinding? = null
 
-  private val SESSION_REQUEST_CODE = 9293
-  private val E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST"
-  private val E_MISSING_SESSION_TOKEN = "E_MISSING_SESSION_TOKEN"
-  private val E_FAILED_TO_SHOW_SESSION = "E_FAILED_TO_SHOW_SESSION"
-  private val E_CANCELED = "E_CANCELED"
-  private val E_UNKNOWN_ERROR = "E_UNKNOWN_ERROR"
+  companion object {
+    private const val E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST"
+    private const val E_MISSING_SESSION_TOKEN = "E_MISSING_SESSION_TOKEN"
+    private const val E_FAILED_TO_SHOW_SESSION = "E_FAILED_TO_SHOW_SESSION"
+    private const val E_CANCELED = "E_CANCELED"
+    private const val E_SUPPORT_PRESSED = "E_CONTACT_SUPPORT_PRESSED"
+  }
+
+
+  private val listener = object: IdentityBuilderListener {
+    override fun identityVerificationFinished() {
+      resultHandler?.success(null)
+    }
+
+    override fun identityVerificationCanceled(error: KlippaError) {
+      val err = when (error) {
+        KlippaError.InsufficientPermissions -> "Insufficient permissions"
+        KlippaError.InvalidSessionToken -> "Invalid session token"
+        KlippaError.UserCanceled -> "User canceled session"
+        KlippaError.NoInternetConnection -> "No internet connection"
+      }
+
+      resultHandler?.error(E_CANCELED, err, null)
+    }
+
+    override fun identityVerificationContactSupportPressed() {
+      resultHandler?.error(E_SUPPORT_PRESSED, "Contact support pressed", null)
+    }
+  }
+
+
   private var resultHandler : Result? = null
 
-  override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+  override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "klippa_identity_verification_sdk")
     channel.setMethodCallHandler(this)
   }
@@ -53,7 +76,7 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
     this.activityPluginBinding = null
   }
 
-  override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+  override fun onMethodCall(call: MethodCall, result: Result) {
     if (call.method == "startSession") {
       startSession(call, result)
     } else {
@@ -61,7 +84,7 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
     }
   }
 
-  private fun startSession(@NonNull call: MethodCall, @NonNull result: Result) {
+  private fun startSession(call: MethodCall, result: Result) {
     if (activityPluginBinding == null) {
       result.error(E_ACTIVITY_DOES_NOT_EXIST, "Activity doesn't exist", null)
       return
@@ -73,7 +96,7 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
         return
       }
 
-      val builder = IdentityBuilder(null, call.argument<String>("SessionToken")!!)
+      val builder = IdentityBuilder(listener, call.argument<String>("SessionToken")!!)
 
       if (call.hasArgument("Language")) {
         val language = call.argument<String>("Language")!!
@@ -113,34 +136,14 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
 
       val intent = builder.getIntent(activityPluginBinding!!.activity)
       resultHandler = result
-      activityPluginBinding!!.addActivityResultListener(this)
-      activityPluginBinding!!.activity.startActivityForResult(intent, SESSION_REQUEST_CODE)
+      activityPluginBinding?.activity?.startActivity(intent)
     } catch (e: Exception) {
       result.error(E_FAILED_TO_SHOW_SESSION, "Could not launch identity verification session", e.message + "\n" + Log.getStackTraceString(e))
     }
   }
 
-  override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
   }
 
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-    if (requestCode == SESSION_REQUEST_CODE) {
-      if (resultHandler != null) {
-        if (resultCode == Activity.RESULT_CANCELED) {
-          resultHandler!!.error(E_CANCELED, "The user canceled", null);
-        } else if (resultCode == Activity.RESULT_OK) {
-          val resultMap: HashMap<String, Any?> = hashMapOf()
-          resultHandler!!.success(resultMap)
-        } else {
-          resultHandler!!.error(E_UNKNOWN_ERROR, "Unknown error", null);
-        }
-
-        resultHandler = null;
-      }
-
-      return true;
-    }
-    return false;
-  }
 }
