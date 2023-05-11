@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/services.dart';
 
 /// Available languages for the Identity Verification SDK.
@@ -8,34 +7,34 @@ enum KIVLanguage { English, Dutch, Spanish }
 /// Custom fonts for the SDK.
 class KIVFonts {
   /// The normal font that the SDK uses.
-  String fontName;
+  String? fontName;
 
   /// The bold font that the SDK uses.
-  String boldFontName;
+  String? boldFontName;
 }
 
 /// Custom colors for the SDK.
 class KIVColors {
   /// The color that the SDK uses for text.
-  Color textColor;
+  Color? textColor;
 
   /// The color that the SDK uses for the background.
-  Color backgroundColor;
+  Color? backgroundColor;
 
   /// The color that the SDK uses for success buttons.
-  Color buttonSuccessColor;
+  Color? buttonSuccessColor;
 
   /// The color that the SDK uses for error buttons.
-  Color buttonErrorColor;
+  Color? buttonErrorColor;
 
   /// The color that the SDK uses for other buttons.
-  Color buttonOtherColor;
+  Color? buttonOtherColor;
 
   /// The color that the SDK uses for the progress bar background.
-  Color progressBarBackground;
+  Color? progressBarBackground;
 
   /// The color that the SDK uses for the progress bar foreground.
-  Color progressBarForeground;
+  Color? progressBarForeground;
 }
 
 /// The builder to start a new session.
@@ -47,22 +46,22 @@ class IdentityBuilder {
   KIVFonts fonts = new KIVFonts();
 
   /// The list of items to include in the data verification screen.
-  List<String> verifyIncludeList;
+  List<String>? verifyIncludeList;
 
   /// The list of items to exclude in the data verification screen.
-  List<String> verifyExcludeList;
+  List<String>? verifyExcludeList;
 
   /// The language that the SDK uses.
-  KIVLanguage language;
+  KIVLanguage? language;
 
   /// Whether the SDK shows an intro screen.
-  bool hasIntroScreen;
+  bool? hasIntroScreen;
 
   /// Whether the SDK shows an success screen.
-  bool hasSuccessScreen;
+  bool? hasSuccessScreen;
 
   /// Whether the SDK should report debug information.
-  bool isDebug;
+  bool? isDebug;
 
   /// Overwrite the fonts object with [newFonts] for the builder.
   setFonts(KIVFonts newFonts) {
@@ -106,46 +105,49 @@ class KlippaIdentityVerificationSdk {
       parameters['Language'] = builder.language.toString();
     }
 
-    if (builder.colors != null) {
-      if (builder.colors.textColor != null) {
-        parameters['Colors.textColor'] =
-            KIVHexColor.flutterColorToHex(builder.colors.textColor, true);
-      }
-      if (builder.colors.backgroundColor != null) {
-        parameters['Colors.backgroundColor'] =
-            KIVHexColor.flutterColorToHex(builder.colors.backgroundColor, true);
-      }
-      if (builder.colors.buttonSuccessColor != null) {
-        parameters['Colors.buttonSuccessColor'] = KIVHexColor.flutterColorToHex(
-            builder.colors.buttonSuccessColor, true);
-      }
-      if (builder.colors.buttonErrorColor != null) {
-        parameters['Colors.buttonErrorColor'] = KIVHexColor.flutterColorToHex(
-            builder.colors.buttonErrorColor, true);
-      }
-      if (builder.colors.buttonOtherColor != null) {
-        parameters['Colors.buttonOtherColor'] = KIVHexColor.flutterColorToHex(
-            builder.colors.buttonOtherColor, true);
-      }
-      if (builder.colors.progressBarBackground != null) {
-        parameters['Colors.progressBarBackground'] =
-            KIVHexColor.flutterColorToHex(
-                builder.colors.progressBarBackground, true);
-      }
-      if (builder.colors.progressBarForeground != null) {
-        parameters['Colors.progressBarForeground'] =
-            KIVHexColor.flutterColorToHex(
-                builder.colors.progressBarForeground, true);
-      }
+    if (builder.colors.textColor != null) {
+      parameters['Colors.textColor'] =
+          KIVHexColor.flutterColorToHex(builder.colors.textColor!, true);
     }
 
-    if (builder.fonts != null) {
-      if (builder.fonts.fontName != null) {
-        parameters['Fonts.fontName'] = builder.fonts.fontName;
-      }
-      if (builder.fonts.boldFontName != null) {
-        parameters['Fonts.boldFontName'] = builder.fonts.boldFontName;
-      }
+    if (builder.colors.backgroundColor != null) {
+      parameters['Colors.backgroundColor'] =
+          KIVHexColor.flutterColorToHex(builder.colors.backgroundColor!, true);
+    }
+
+    if (builder.colors.buttonSuccessColor != null) {
+      parameters['Colors.buttonSuccessColor'] = KIVHexColor.flutterColorToHex(
+          builder.colors.buttonSuccessColor!, true);
+    }
+
+    if (builder.colors.buttonErrorColor != null) {
+      parameters['Colors.buttonErrorColor'] =
+          KIVHexColor.flutterColorToHex(builder.colors.buttonErrorColor!, true);
+    }
+
+    if (builder.colors.buttonOtherColor != null) {
+      parameters['Colors.buttonOtherColor'] =
+          KIVHexColor.flutterColorToHex(builder.colors.buttonOtherColor!, true);
+    }
+
+    if (builder.colors.progressBarBackground != null) {
+      parameters['Colors.progressBarBackground'] =
+          KIVHexColor.flutterColorToHex(
+              builder.colors.progressBarBackground!, true);
+    }
+
+    if (builder.colors.progressBarForeground != null) {
+      parameters['Colors.progressBarForeground'] =
+          KIVHexColor.flutterColorToHex(
+              builder.colors.progressBarForeground!, true);
+    }
+
+    if (builder.fonts.fontName != null) {
+      parameters['Fonts.fontName'] = builder.fonts.fontName;
+    }
+
+    if (builder.fonts.boldFontName != null) {
+      parameters['Fonts.boldFontName'] = builder.fonts.boldFontName;
     }
 
     if (builder.hasIntroScreen != null) {
