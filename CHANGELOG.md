@@ -1,3 +1,10 @@
+## 0.1.0
+
+* Added dart sound null safety support
+* Bump Android SDK version to 0.5.2
+* Bump iOS SDK version to 0.5.6
+
+
 ## 0.0.8
 
 * Bump Android SDK version to 0.5.0
