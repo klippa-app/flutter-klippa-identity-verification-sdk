@@ -40,11 +40,11 @@ target 'Runner' do
 
   // Add this below flutter_install_all_ios_pods
   if "#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL']}" == ""
-    ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = File.read(File.join(File.dirname(File.realpath(__FILE__)), '.symlinks', 'plugins', 'klippa_identity_verification_sdk', 'ios', '.sdk_repo')).strip
+    ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = File.read(File.join(File.dirname(File.realpath(__FILE__)), '.symlinks', 'plugins', 'klippa_identity_verification_sdk', 'ios', 'sdk_repo')).strip
   end
 
   if "#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION']}" == ""
-    ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = File.read(File.join(File.dirname(File.realpath(__FILE__)), '.symlinks', 'plugins', 'klippa_identity_verification_sdk', 'ios', '.sdk_version')).strip
+    ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = File.read(File.join(File.dirname(File.realpath(__FILE__)), '.symlinks', 'plugins', 'klippa_identity_verification_sdk', 'ios', 'sdk_version')).strip
   end
 
   pod 'Klippa-Identity-Verification', podspec: "#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL']}/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME']}/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD']}/KlippaIdentityVerification/#{ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION']}.podspec"
