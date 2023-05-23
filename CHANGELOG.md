@@ -1,3 +1,7 @@
+## 0.1.1
+
+* Fixed issue where iOS `Podfile` could not find the required files to download the SDK.
+
 ## 0.1.0
 
 * Added dart sound null safety support
