@@ -33,7 +33,8 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
 
   private val listener = object: IdentityBuilderListener {
     override fun identityVerificationFinished() {
-      resultHandler?.success(null)
+      val resultMap = HashMap<String, Any>()
+      resultHandler?.success(resultMap)
     }
 
     override fun identityVerificationCanceled(error: KlippaError) {
