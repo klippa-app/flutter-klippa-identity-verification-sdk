@@ -1,3 +1,7 @@
+## 0.1.3
+
+* Bump Android SDK version to 0.6.0
+
 ## 0.1.2
 
 * Fixed issue where SDK could crash unexpectedly after passing verification successfully.

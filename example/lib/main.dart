@@ -26,7 +26,8 @@ class _MyAppState extends State<MyApp> {
     try {
       // @todo: get a session token from the API through your backend here.
       var sessionResult = await KlippaIdentityVerificationSdk.startSession(
-          identityBuilder, '{insert-session-token-here}');
+          identityBuilder,
+          'VUB6md6UmHATXheRtdokbsZlRxs7W4QwLkCSE2CBZueDrEB326o7iIdyJ8Z74sax');
       sessionResultText = 'Finished';
     } on PlatformException catch (e) {
       sessionResultText = 'Failed to start session: ' + e.toString();
