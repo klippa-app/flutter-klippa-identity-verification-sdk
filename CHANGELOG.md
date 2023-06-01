@@ -1,6 +1,8 @@
-## 0.1.3
+## 0.2.0
 
 * Bump Android SDK version to 0.6.0
+* Added error messages to explain NFC is disabled or unavailable (Android)
+* Added specific error messages for each cancelation case in the iOS version.
 
 ## 0.1.2
 
