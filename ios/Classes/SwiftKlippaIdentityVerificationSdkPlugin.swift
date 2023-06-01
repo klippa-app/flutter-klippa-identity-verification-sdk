@@ -147,7 +147,6 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
                 return UIColor.init(red: r, green: g, blue: b, alpha: a)
             }
         }
-        
         return nil
     }
 
@@ -158,7 +157,23 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
     }
 
     public func identityVerificationCanceled(withError error: KlippaError) {
-        resultHandler!(FlutterError.init(code: E_CANCELED, message: "The user canceled", details: nil));
+
+        let errorMessage: String = {
+            switch error {
+            case KlippaError.InsufficientPermissions:
+                return "Insufficient permissions"
+            case KlippaError.SessionToken:
+                return "Invalid session token"
+            case KlippaError.UserCanceled:
+                return "User canceled session"
+            case KlippaError.NoInternetConnection:
+                return "No internet connection"
+            default:
+                return "The user canceled"
+            }
+        }()
+
+        resultHandler!(FlutterError.init(code: E_CANCELED, message: errorMessage, details: nil));
         resultHandler = nil;
     }
 

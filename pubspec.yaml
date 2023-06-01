@@ -1,6 +1,6 @@
 name: klippa_identity_verification_sdk
 description: Allows you to do identity verification with the Klippa Identity Verification SDK from Flutter apps.
-version: 0.1.2
+version: 0.2.0
 homepage: https://github.com/klippa-app/flutter-klippa-identity-verification-sdk
 
 environment:

@@ -43,6 +43,8 @@ class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, Act
         KlippaError.InvalidSessionToken -> "Invalid session token"
         KlippaError.UserCanceled -> "User canceled session"
         KlippaError.NoInternetConnection -> "No internet connection"
+        KlippaError.DeviceDoesNotSupportNFC -> "Device doesn't support NFC"
+        KlippaError.DeviceNFCDisabled -> "Device NFC is disabled"
       }
 
       resultHandler?.error(E_CANCELED, err, null)
