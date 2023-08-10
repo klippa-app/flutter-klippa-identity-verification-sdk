@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Bump Android SDK version to 0.6.2
+
 ## 0.2.0
 
 * Bump Android SDK version to 0.6.0
