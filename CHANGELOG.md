@@ -1,3 +1,8 @@
+## 0.2.4
+
+* Bump Android SDK version to 0.6.5
+* Bump iOS SDK version to 0.5.9
+
 ## 0.2.3
 
 * Bump Android SDK version to 0.6.4
