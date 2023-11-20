@@ -26,21 +26,19 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
     }
     
     private func startSession(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        guard let args = call.arguments else {
+        guard let builderArgs = call.arguments as? [String: Any] else {
             result(FlutterError.init(code: E_UNKNOWN_ERROR, message: "Unknown error", details: nil));
             return
         }
-        
-        let builderArgs = args as? [String: Any]
-        if (builderArgs?["SessionToken"] == nil) {
+
+        guard let sessionToken = builderArgs["SessionToken"] as? String else {
             result(FlutterError.init(code: E_MISSING_SESSION_TOKEN, message: "Missing session token", details: nil));
             return
         }
-        
-        let builder = IdentityBuilder(builderDelegate: self, sessionKey: builderArgs?["SessionToken"] as? String ?? "")
-        
-        if (builderArgs?["Language"] != nil) {
-            let language = builderArgs?["Language"] as? String ?? ""
+
+        let builder = IdentityBuilder(builderDelegate: self, sessionKey: sessionToken)
+
+        if let language = builderArgs["Language"] as? String {
             if (language == "KIVLanguage.English") {
                 builder.kivLanguage = IdentityBuilder.KIVLanguage.English
             } else if (language == "KIVLanguage.Dutch") {
@@ -48,78 +46,67 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
             } else if (language == "KIVLanguage.Spanish") {
                 builder.kivLanguage = IdentityBuilder.KIVLanguage.Spanish
             }
-
         }
-        
-        if (builderArgs?["HasIntroScreen"] != nil) {
-            let hasIntroScreen = builderArgs?["HasIntroScreen"] as? Bool ?? true
+
+        if let hasIntroScreen = builderArgs["HasIntroScreen"] as? Bool {
             builder.hasIntroScreen = hasIntroScreen
         }
-        
-        if (builderArgs?["HasSuccessScreen"] != nil) {
-            let hasSuccessScreen = builderArgs?["HasSuccessScreen"] as? Bool ?? true
+
+        if let hasSuccessScreen = builderArgs["HasSuccessScreen"] as? Bool {
             builder.hasSuccessScreen = hasSuccessScreen
         }
-        
-        if (builderArgs?["IsDebug"] != nil) {
-            let isDebug = builderArgs?["IsDebug"] as? Bool ?? false
+
+        if let isDebug = builderArgs["IsDebug"] as? Bool {
             builder.isDebug = isDebug
         }
-        
-        if (builderArgs?["Colors.textColor"] != nil) {
-            let textColor = builderArgs?["Colors.textColor"] as? String ?? ""
+
+        if let textColor = builderArgs["Colors.textColor"] as? String {
             builder.kivColors.textColor = hexColorToUIColor(hex: textColor)
         }
-        
-        if (builderArgs?["Colors.backgroundColor"] != nil) {
-            let backgroundColor = builderArgs?["Colors.backgroundColor"] as? String ?? ""
+
+        if let backgroundColor = builderArgs["Colors.backgroundColor"] as? String {
             builder.kivColors.backgroundColor = hexColorToUIColor(hex: backgroundColor)
         }
-        
-        if (builderArgs?["Colors.buttonSuccessColor"] != nil) {
-            let buttonSuccessColor = builderArgs?["Colors.buttonSuccessColor"] as? String ?? ""
+
+        if let buttonSuccessColor = builderArgs["Colors.buttonSuccessColor"] as? String {
             builder.kivColors.buttonSuccessColor = hexColorToUIColor(hex: buttonSuccessColor)
         }
-        
-        if (builderArgs?["Colors.buttonErrorColor"] != nil) {
-            let buttonErrorColor = builderArgs?["Colors.buttonErrorColor"] as? String ?? ""
+
+        if let buttonErrorColor = builderArgs["Colors.buttonErrorColor"] as? String {
             builder.kivColors.buttonErrorColor = hexColorToUIColor(hex: buttonErrorColor)
         }
-        
-        if (builderArgs?["Colors.buttonOtherColor"] != nil) {
-            let buttonOtherColor = builderArgs?["Colors.buttonOtherColor"] as? String ?? ""
+
+        if let buttonOtherColor = builderArgs["Colors.buttonOtherColor"] as? String {
             builder.kivColors.buttonOtherColor = hexColorToUIColor(hex: buttonOtherColor)
         }
-        
-        if (builderArgs?["Colors.progressBarBackground"] != nil) {
-            let progressBarBackground = builderArgs?["Colors.progressBarBackground"] as? String ?? ""
+
+        if let progressBarBackground = builderArgs["Colors.progressBarBackground"] as? String {
             builder.kivColors.progressBarBackground = hexColorToUIColor(hex: progressBarBackground)
         }
-        
-        if (builderArgs?["Colors.progressBarForeground"] != nil) {
-            let progressBarForeground = builderArgs?["Colors.progressBarForeground"] as? String ?? ""
+
+        if let progressBarForeground = builderArgs["Colors.progressBarForeground"] as? String {
             builder.kivColors.progressBarForeground = hexColorToUIColor(hex: progressBarForeground)
         }
-        
-        if (builderArgs?["Fonts.fontName"] != nil) {
-            let fontName = builderArgs?["Fonts.fontName"] as? String ?? ""
+
+        if let fontName = builderArgs["Fonts.fontName"] as? String {
             builder.kivFonts.fontName = fontName
         }
-        
-        if (builderArgs?["Fonts.boldFontName"] != nil) {
-            let boldFontName = builderArgs?["Fonts.boldFontName"] as? String ?? ""
+
+        if let boldFontName = builderArgs["Fonts.boldFontName"] as? String {
             builder.kivFonts.boldFontName = boldFontName
         }
 
-        if (builderArgs?["VerifyIncludeList"] != nil) {
-            let includeList = builderArgs?["VerifyIncludeList"] as? [String] ?? []
+        if let includeList = builderArgs["VerifyIncludeList"] as? [String] {
             builder.kivVerifyIncludeList = includeList
-        } 
+        }
 
-        if (builderArgs?["VerifyExcludeList"] != nil) {
-            let excludeList = builderArgs?["VerifyExcludeList"] as? [String] ?? []
+        if let excludeList = builderArgs["VerifyExcludeList"] as? [String] {
             builder.kivVerifyExcludeList = excludeList
-        } 
+        }
+
+        if let retryThreshold = builderArgs["RetryThreshold"] as? Int {
+            builder.retryThreshold = retryThreshold
+        }
         
         resultHandler = result
         let viewController = builder.build()

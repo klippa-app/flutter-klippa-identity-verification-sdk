@@ -88,6 +88,7 @@ The reject reason object has a code and a message, the used codes are:
  - E_MISSING_SESSION_TOKEN
  - E_CANCELED
  - E_UNKNOWN_ERROR
+ - E_CONTACT_SUPPORT_PRESSED
 
 ## How to use a specific version of the SDK?
 

@@ -1,9 +1,8 @@
 package com.klippa.identity_verification.klippa_identity_verification_sdk
 
-import android.util.Log
-import com.klippa.identity_verification.model.KlippaError
-import com.klippa.identity_verification.modules.base.IdentityBuilder
-import com.klippa.identity_verification.modules.base.IdentityBuilder.IdentityBuilderListener
+import android.content.Intent
+import com.klippa.identity_verification.modules.base.IdentitySession
+import com.klippa.identity_verification.modules.base.IdentitySessionResultCode
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -11,142 +10,170 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import io.flutter.plugin.common.PluginRegistry
 
 /** KlippaIdentityVerificationSdkPlugin */
-class KlippaIdentityVerificationSdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
-  private lateinit var channel : MethodChannel
+class KlippaIdentityVerificationSdkPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
+    PluginRegistry.ActivityResultListener {
+    /// The MethodChannel that will the communication between Flutter and native Android
+    ///
+    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
+    /// when the Flutter Engine is detached from the Activity
+    private lateinit var channel: MethodChannel
 
-  private var activityPluginBinding : ActivityPluginBinding? = null
+    private var activityPluginBinding: ActivityPluginBinding? = null
 
-  companion object {
-    private const val E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST"
-    private const val E_MISSING_SESSION_TOKEN = "E_MISSING_SESSION_TOKEN"
-    private const val E_FAILED_TO_SHOW_SESSION = "E_FAILED_TO_SHOW_SESSION"
-    private const val E_CANCELED = "E_CANCELED"
-    private const val E_SUPPORT_PRESSED = "E_CONTACT_SUPPORT_PRESSED"
-  }
+    companion object {
+        private const val E_ACTIVITY_DOES_NOT_EXIST = "E_ACTIVITY_DOES_NOT_EXIST"
+        private const val E_MISSING_SESSION_TOKEN = "E_MISSING_SESSION_TOKEN"
+        private const val E_FAILED_TO_SHOW_SESSION = "E_FAILED_TO_SHOW_SESSION"
+        private const val E_CANCELED = "E_CANCELED"
+        private const val E_SUPPORT_PRESSED = "E_CONTACT_SUPPORT_PRESSED"
 
-
-  private val listener = object: IdentityBuilderListener {
-    override fun identityVerificationFinished() {
-      val resultMap = HashMap<String, Any>()
-      resultHandler?.success(resultMap)
+        private const val REQUEST_CODE = 99991801
     }
 
-    override fun identityVerificationCanceled(error: KlippaError) {
-      val err = when (error) {
-        KlippaError.InsufficientPermissions -> "Insufficient permissions"
-        KlippaError.InvalidSessionToken -> "Invalid session token"
-        KlippaError.UserCanceled -> "User canceled session"
-        KlippaError.NoInternetConnection -> "No internet connection"
-        KlippaError.DeviceDoesNotSupportNFC -> "Device doesn't support NFC"
-        KlippaError.DeviceNFCDisabled -> "Device NFC is disabled"
-      }
+    private var resultHandler: Result? = null
 
-      resultHandler?.error(E_CANCELED, err, null)
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        channel =
+            MethodChannel(flutterPluginBinding.binaryMessenger, "klippa_identity_verification_sdk")
+        channel.setMethodCallHandler(this)
     }
 
-    override fun identityVerificationContactSupportPressed() {
-      resultHandler?.error(E_SUPPORT_PRESSED, "Contact support pressed", null)
-    }
-  }
-
-
-  private var resultHandler : Result? = null
-
-  override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-    channel = MethodChannel(flutterPluginBinding.binaryMessenger, "klippa_identity_verification_sdk")
-    channel.setMethodCallHandler(this)
-  }
-
-  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-    this.activityPluginBinding = binding
-  }
-
-  override fun onDetachedFromActivityForConfigChanges() {
-    this.activityPluginBinding = null
-  }
-
-  override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-    this.activityPluginBinding = binding
-  }
-
-  override fun onDetachedFromActivity() {
-    this.activityPluginBinding = null
-  }
-
-  override fun onMethodCall(call: MethodCall, result: Result) {
-    if (call.method == "startSession") {
-      startSession(call, result)
-    } else {
-      result.notImplemented()
-    }
-  }
-
-  private fun startSession(call: MethodCall, result: Result) {
-    if (activityPluginBinding == null) {
-      result.error(E_ACTIVITY_DOES_NOT_EXIST, "Activity doesn't exist", null)
-      return
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        this.activityPluginBinding = binding
+        binding.addActivityResultListener(this)
     }
 
-    try {
-      if (!call.hasArgument("SessionToken")) {
-        result.error(E_MISSING_SESSION_TOKEN, "Missing session token", null)
-        return
-      }
+    override fun onDetachedFromActivityForConfigChanges() {
+        this.activityPluginBinding = null
+    }
 
-      val builder = IdentityBuilder(listener, call.argument<String>("SessionToken")!!)
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        this.activityPluginBinding = binding
+        binding.addActivityResultListener(this)
+    }
 
-      if (call.hasArgument("Language")) {
-        val language = call.argument<String>("Language")!!
-        if (language == "KIVLanguage.English") {
-          builder.language = IdentityBuilder.KIVLanguage.English
-        } else if (language == "KIVLanguage.Dutch") {
-          builder.language = IdentityBuilder.KIVLanguage.Dutch
-        } else if (language == "KIVLanguage.Spanish") {
-          builder.language = IdentityBuilder.KIVLanguage.Spanish
+    override fun onDetachedFromActivity() {
+        this.activityPluginBinding = null
+    }
+
+    override fun onMethodCall(call: MethodCall, result: Result) {
+        if (call.method == "startSession") {
+            startSession(call, result)
+        } else {
+            result.notImplemented()
         }
-      }
-
-      if (call.hasArgument("HasIntroScreen")) {
-        val hasIntroScreen = call.argument<Boolean>("HasIntroScreen")!!
-        builder.hasIntroScreen = hasIntroScreen
-      }
-
-      if (call.hasArgument("HasSuccessScreen")) {
-        val hasSuccessScreen = call.argument<Boolean>("HasSuccessScreen")!!
-        builder.hasSuccessScreen = hasSuccessScreen
-      }
-
-      if (call.hasArgument("IsDebug")) {
-        val isDebug = call.argument<Boolean>("IsDebug")!!
-        builder.isDebug = isDebug
-      }
-
-      if (call.hasArgument("VerifyIncludeList")) {
-        val include = call.argument<List<String>>("VerifyIncludeList")!!
-        builder.kivIncludeList = include
-      }
-
-      if (call.hasArgument("VerifyExcludeList")) {
-        val exclude = call.argument<List<String>>("VerifyExcludeList")!!
-        builder.kivExcludeList = exclude
-      }
-
-      val intent = builder.getIntent(activityPluginBinding!!.activity)
-      resultHandler = result
-      activityPluginBinding?.activity?.startActivity(intent)
-    } catch (e: Exception) {
-      result.error(E_FAILED_TO_SHOW_SESSION, "Could not launch identity verification session", e.message + "\n" + Log.getStackTraceString(e))
     }
-  }
 
-  override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
-    channel.setMethodCallHandler(null)
-  }
+    private fun startSession(call: MethodCall, result: Result) {
+        val activity = activityPluginBinding?.activity ?: kotlin.run {
+            result.error(E_ACTIVITY_DOES_NOT_EXIST, "Activity doesn't exist", null)
+            return
+        }
+
+        try {
+            if (!call.hasArgument("SessionToken")) {
+                result.error(E_MISSING_SESSION_TOKEN, "Missing session token", null)
+                return
+            }
+
+            val token = call.argument<String>("SessionToken")!!
+
+            val identitySession = IdentitySession(
+                token
+            )
+
+            call.argument<String>("Language")?.let { language ->
+                when (language) {
+                    "KIVLanguage.English" -> {
+                        identitySession.language = IdentitySession.KIVLanguage.English
+                    }
+                    "KIVLanguage.Dutch" -> {
+                        identitySession.language = IdentitySession.KIVLanguage.Dutch
+                    }
+                    "KIVLanguage.Spanish" -> {
+                        identitySession.language = IdentitySession.KIVLanguage.Spanish
+                    }
+                }
+            }
+
+            call.argument<Boolean>("HasIntroScreen")?.let { hasIntroScreen ->
+                identitySession.hasIntroScreen = hasIntroScreen
+            }
+
+            call.argument<Boolean>("HasSuccessScreen")?.let { hasSuccessScreen ->
+                identitySession.hasSuccessScreen = hasSuccessScreen
+            }
+
+            call.argument<Boolean>("IsDebug")?.let { isDebug ->
+                identitySession.isDebug = isDebug
+            }
+
+            call.argument<List<String>>("VerifyIncludeList")?.let { include ->
+                identitySession.kivIncludeList = include
+            }
+
+            call.argument<List<String>>("VerifyExcludeList")?.let { exclude ->
+                identitySession.kivExcludeList = exclude
+            }
+
+            call.argument<Int>("RetryThreshold")?.let { retryThreshold ->
+                identitySession.retryThreshold = retryThreshold
+            }
+
+            val intent = identitySession.getIntent(activity)
+            resultHandler = result
+            activity.startActivityForResult(intent, REQUEST_CODE)
+        } catch (e: Exception) {
+            result.error(
+                E_FAILED_TO_SHOW_SESSION,
+                "Could not launch identity verification session",
+                e.message + "\n" + e.stackTrace
+            )
+        }
+    }
+
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
+        channel.setMethodCallHandler(null)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+        val mappedResultCode = IdentitySessionResultCode.mapResultCode(resultCode)
+        when (mappedResultCode) {
+            IdentitySessionResultCode.FINISHED -> identityVerificationFinished()
+            IdentitySessionResultCode.CONTACT_SUPPORT_PRESSED -> identityVerificationContactSupportPressed(
+                mappedResultCode.message()
+            )
+
+            IdentitySessionResultCode.INSUFFICIENT_PERMISSIONS,
+            IdentitySessionResultCode.INVALID_SESSION_TOKEN,
+            IdentitySessionResultCode.USER_CANCELED,
+            IdentitySessionResultCode.NO_INTERNET_CONNECTION,
+            IdentitySessionResultCode.DEVICE_DOES_NOT_SUPPORT_NFC,
+            IdentitySessionResultCode.DEVICE_NFC_DISABLED,
+            IdentitySessionResultCode.TAKING_PHOTO_FAILED,
+            IdentitySessionResultCode.UNKNOWN_ERROR -> identityVerificationCanceled(mappedResultCode.message())
+        }
+
+        return true
+    }
+
+
+    private fun identityVerificationFinished() {
+        val resultMap = HashMap<String, Any>()
+        resultHandler?.success(resultMap)
+    }
+
+
+    private fun identityVerificationCanceled(message: String) {
+        resultHandler?.error(E_CANCELED, message, null)
+    }
+
+    private fun identityVerificationContactSupportPressed(message: String) {
+        resultHandler?.error(E_SUPPORT_PRESSED, message, null)
+    }
+
 
 }

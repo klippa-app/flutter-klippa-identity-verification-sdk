@@ -63,6 +63,9 @@ class IdentityBuilder {
   /// Whether the SDK should report debug information.
   bool? isDebug;
 
+  /// The threshold the user can attempt a task before a contact support button is shown.
+  int? retryThreshold;
+
   /// Overwrite the fonts object with [newFonts] for the builder.
   setFonts(KIVFonts newFonts) {
     this.fonts = newFonts;
@@ -168,6 +171,10 @@ class KlippaIdentityVerificationSdk {
 
     if (builder.verifyExcludeList != null) {
       parameters['VerifyExcludeList'] = builder.verifyExcludeList;
+    }
+
+    if (builder.retryThreshold != null) {
+      parameters["RetryThreshold"] = builder.retryThreshold;
     }
 
     final Map startSessionResult =
