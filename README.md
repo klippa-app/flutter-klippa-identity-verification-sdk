@@ -157,6 +157,13 @@ identityBuilder.hasIntroScreen = true;
 identityBuilder.hasSuccessScreen = true;
 ```
 
+### Retry Threshold
+
+To configure how often a user can attempt a task before the contact support button is shown to the user.
+```dart
+identityBuilder.retryThreshold = 1;
+```
+
 ### Language
 
 Add the following to the builder:
