@@ -175,6 +175,36 @@ identityBuilder.language = KIVLanguage.Dutch;
 
 When no language is given we try to detect the language of the device and use that if we support it.
 
+### Include & Exclude lists
+
+You can edit the include list: The extracted data keys that will be shown to the user after document pictures are processed. 
+Or the exclude list: The extracted data keys that will be hidden for the user after document pictures are processed.
+
+```dart
+identityBuilder.verifyIncludeList = [
+     "DateOfBirth",
+     "DateOfIssue",
+     "DateOfExpiry",
+     "DocumentNumber",
+     "DocumentSubtype",
+     "DocumentType",
+     "Face",
+     "Gender",
+     "GivenNames",
+     "Height",
+     "IssuingCountry",
+     "IssuingInstitution",
+     "Nationality",
+     "PersonalNumber",
+     "PlaceOfBirth",
+     "Residency",
+     "Signature",
+     "Surname"
+];
+
+identityBuilder.verifyExcludeList = [];
+```
+
 ## How to change the colors of the SDK?
 
 ### Android
