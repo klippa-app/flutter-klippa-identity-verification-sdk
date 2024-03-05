@@ -1,3 +1,8 @@
+## 0.2.7
+
+* Bump Android to 0.7.3
+* Bump iOS to 0.5.14
+
 ## 0.2.6
 
 * Bump Android to 0.7.1
@@ -31,7 +36,7 @@
 
 * Bump Android SDK version to 0.6.0
 * Added error messages to explain NFC is disabled or unavailable (Android)
-* Added specific error messages for each cancelation case in the iOS version.
+* Added specific error messages for each cancellation case in the iOS version.
 
 ## 0.1.2
 
