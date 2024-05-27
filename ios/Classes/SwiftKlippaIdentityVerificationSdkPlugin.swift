@@ -45,6 +45,10 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
                 builder.kivLanguage = IdentityBuilder.KIVLanguage.Dutch
             } else if (language == "KIVLanguage.Spanish") {
                 builder.kivLanguage = IdentityBuilder.KIVLanguage.Spanish
+            } else if (language == "KIVLanguage.German") {
+                builder.kivLanguage = IdentityBuilder.KIVLanguage.German
+            } else if (language == "KIVLanguage.French") {
+                builder.kivLanguage = IdentityBuilder.KIVLanguage.French
             }
         }
 
@@ -60,6 +64,9 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
             builder.isDebug = isDebug
         }
 
+        if let enableAutoCapture = builderArgs["EnableAutoCapture"] as? Bool {
+            builder.enableAutoCapture = enableAutoCapture
+        }
         if let textColor = builderArgs["Colors.textColor"] as? String {
             builder.kivColors.textColor = hexColorToUIColor(hex: textColor)
         }
@@ -102,6 +109,14 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
 
         if let excludeList = builderArgs["VerifyExcludeList"] as? [String] {
             builder.kivVerifyExcludeList = excludeList
+        }
+
+        if let validationIncludeList = builderArgs["ValidationIncludeList"] as? [String] {
+            builder.kivValidationIncludeList = validationIncludeList
+        }
+
+        if let validationExcludeList = builderArgs["ValidationExcludeList"] as? [String] {
+            builder.kivValidationExcludeList = validationExcludeList
         }
 
         if let retryThreshold = builderArgs["RetryThreshold"] as? Int {
