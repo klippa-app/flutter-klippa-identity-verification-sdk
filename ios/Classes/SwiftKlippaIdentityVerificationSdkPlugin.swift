@@ -68,31 +68,31 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
             builder.enableAutoCapture = enableAutoCapture
         }
         if let textColor = builderArgs["Colors.textColor"] as? String {
-            builder.kivColors.textColor = hexColorToUIColor(hex: textColor)
+            builder.kivColors.textColor = UIColor(hexString: textColor) 
         }
 
         if let backgroundColor = builderArgs["Colors.backgroundColor"] as? String {
-            builder.kivColors.backgroundColor = hexColorToUIColor(hex: backgroundColor)
+            builder.kivColors.backgroundColor = UIColor(hexString: backgroundColor)
         }
 
         if let buttonSuccessColor = builderArgs["Colors.buttonSuccessColor"] as? String {
-            builder.kivColors.buttonSuccessColor = hexColorToUIColor(hex: buttonSuccessColor)
+            builder.kivColors.buttonSuccessColor = UIColor(hexString: buttonSuccessColor)
         }
 
         if let buttonErrorColor = builderArgs["Colors.buttonErrorColor"] as? String {
-            builder.kivColors.buttonErrorColor = hexColorToUIColor(hex: buttonErrorColor)
+            builder.kivColors.buttonErrorColor = UIColor(hexString: buttonErrorColor)
         }
 
         if let buttonOtherColor = builderArgs["Colors.buttonOtherColor"] as? String {
-            builder.kivColors.buttonOtherColor = hexColorToUIColor(hex: buttonOtherColor)
+            builder.kivColors.buttonOtherColor = UIColor(hexString: buttonOtherColor)
         }
 
         if let progressBarBackground = builderArgs["Colors.progressBarBackground"] as? String {
-            builder.kivColors.progressBarBackground = hexColorToUIColor(hex: progressBarBackground)
+            builder.kivColors.progressBarBackground = UIColor(hexString: progressBarBackground)
         }
 
         if let progressBarForeground = builderArgs["Colors.progressBarForeground"] as? String {
-            builder.kivColors.progressBarForeground = hexColorToUIColor(hex: progressBarForeground)
+            builder.kivColors.progressBarForeground = UIColor(hexString: progressBarForeground)
         }
 
         if let fontName = builderArgs["Fonts.fontName"] as? String {
@@ -130,28 +130,6 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
         rootViewController.present(viewController, animated:true, completion:nil)
     }
     
-    private func hexColorToUIColor(hex: String) -> UIColor? {
-        let r, g, b, a: CGFloat
-        
-        let start = hex.index(hex.startIndex, offsetBy: 1)
-        let hexColor = String(hex[start...])
-        
-        if hexColor.count == 8 {
-            let scanner = Scanner(string: hexColor)
-            var hexNumber: UInt64 = 0
-            
-            if scanner.scanHexInt64(&hexNumber) {
-                a = CGFloat((hexNumber & 0xff000000) >> 24) / 255
-                r = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
-                g = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
-                b = CGFloat(hexNumber & 0x000000ff) / 255
-                
-                return UIColor.init(red: r, green: g, blue: b, alpha: a)
-            }
-        }
-        return nil
-    }
-
     public func identityVerificationFinished() {
         let resultMap = Dictionary<String, Any>.init()
         resultHandler!(resultMap)
@@ -184,4 +162,33 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
         resultHandler = nil;
     }
 
+}
+
+extension UIColor {
+    convenience init(hexString: String) {
+        var newString = hexString
+        if newString.first != "#" {
+            newString.insert("#", at: newString.startIndex)
+        }
+        let hex = newString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt64()
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(
+            red: CGFloat(r) / 255,
+            green: CGFloat(g) / 255,
+            blue: CGFloat(b) / 255,
+            alpha: CGFloat(a) / 255
+        )
+    }
 }
