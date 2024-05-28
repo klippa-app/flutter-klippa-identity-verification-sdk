@@ -96,6 +96,12 @@ class KlippaIdentityVerificationSdkPlugin : FlutterPlugin, MethodCallHandler, Ac
                     "KIVLanguage.Spanish" -> {
                         identitySession.language = IdentitySession.KIVLanguage.Spanish
                     }
+                    "KIVLanguage.German" -> {
+                        identitySession.language = IdentitySession.KIVLanguage.German
+                    }
+                    "KIVLanguage.French" -> {
+                        identitySession.language = IdentitySession.KIVLanguage.French
+                    }
                 }
             }
 
@@ -111,12 +117,24 @@ class KlippaIdentityVerificationSdkPlugin : FlutterPlugin, MethodCallHandler, Ac
                 identitySession.isDebug = isDebug
             }
 
+            call.argument<Boolean>("EnableAutoCapture")?.let { enableAutoCapture ->
+                identitySession.enableAutoCapture = enableAutoCapture
+            }
+
             call.argument<List<String>>("VerifyIncludeList")?.let { include ->
                 identitySession.kivIncludeList = include
             }
 
             call.argument<List<String>>("VerifyExcludeList")?.let { exclude ->
                 identitySession.kivExcludeList = exclude
+            }
+
+            call.argument<List<String>>("ValidationIncludeList")?.let { include ->
+                identitySession.kivValidationIncludeList = include
+            }
+
+            call.argument<List<String>>("ValidationExcludeList")?.let { exclude ->
+                identitySession.kivValidationExcludeList = exclude
             }
 
             call.argument<Int>("RetryThreshold")?.let { retryThreshold ->
@@ -154,7 +172,8 @@ class KlippaIdentityVerificationSdkPlugin : FlutterPlugin, MethodCallHandler, Ac
             IdentitySessionResultCode.DEVICE_DOES_NOT_SUPPORT_NFC,
             IdentitySessionResultCode.DEVICE_NFC_DISABLED,
             IdentitySessionResultCode.TAKING_PHOTO_FAILED,
-            IdentitySessionResultCode.UNKNOWN_ERROR -> identityVerificationCanceled(mappedResultCode.message())
+            IdentitySessionResultCode.UNKNOWN_ERROR,
+            IdentitySessionResultCode.INCORRECT_SESSION_SETUP -> identityVerificationCanceled(mappedResultCode.message())
         }
 
         return true

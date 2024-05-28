@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 /// Available languages for the Identity Verification SDK.
-enum KIVLanguage { English, Dutch, Spanish }
+enum KIVLanguage { English, Dutch, Spanish, German, French }
 
 /// Custom fonts for the SDK.
 class KIVFonts {
@@ -51,6 +51,12 @@ class IdentityBuilder {
   /// The list of items to exclude in the data verification screen.
   List<String>? verifyExcludeList;
 
+  /// The list of validations to include.
+  List<String>? validationIncludeList;
+
+  /// The list of validations to exclude.
+  List<String>? validationExcludeList;
+
   /// The language that the SDK uses.
   KIVLanguage? language;
 
@@ -62,6 +68,9 @@ class IdentityBuilder {
 
   /// Whether the SDK should report debug information.
   bool? isDebug;
+
+  /// Whether the SDK should automatically take photos when conditions are right.
+  bool? enableAutoCapture;
 
   /// The threshold the user can attempt a task before a contact support button is shown.
   int? retryThreshold;
@@ -165,12 +174,24 @@ class KlippaIdentityVerificationSdk {
       parameters['IsDebug'] = builder.isDebug;
     }
 
+    if (builder.enableAutoCapture != null) {
+      parameters['EnableAutoCapture'] = builder.enableAutoCapture;
+    }
+
     if (builder.verifyIncludeList != null) {
       parameters['VerifyIncludeList'] = builder.verifyIncludeList;
     }
 
     if (builder.verifyExcludeList != null) {
       parameters['VerifyExcludeList'] = builder.verifyExcludeList;
+    }
+
+    if (builder.validationIncludeList != null) {
+      parameters['ValidationIncludeList'] = builder.validationIncludeList;
+    }
+
+    if (builder.validationExcludeList != null) {
+      parameters['ValidationExcludeList'] = builder.validationExcludeList;
     }
 
     if (builder.retryThreshold != null) {

@@ -148,6 +148,14 @@ To display extra debug info, add the following to the builder:
 identityBuilder.isDebug = true;
 ```
 
+### Enable Auto Capture
+
+To configure if the camera should automatically take a photo if the conditions are right.
+
+```dart
+identityBuilder.enableAutoCapture = true;
+```
+
 ### Intro/Success screens
 
 To configure whether to show intro/success screens, add the following to the builder:
@@ -169,7 +177,7 @@ identityBuilder.retryThreshold = 1;
 Add the following to the builder:
 
 ```dart
-// We support English, Dutch and Spanish.
+// We support English, Dutch, Spanish, German and French.
 identityBuilder.language = KIVLanguage.Dutch;
 ```
 
@@ -203,6 +211,28 @@ identityBuilder.verifyIncludeList = [
 ];
 
 identityBuilder.verifyExcludeList = [];
+```
+
+### Validation Include & Exclude lists
+
+You can edit the validation include list: the failed validations that are shown to the user Or the validation exclude list: the failed validations that are hidden from the user.
+For more information regarding validations check out the [API documentation](https://custom-ocr.klippa.com/docs#tag/IdentityVerification/operation/createIdentityVerificationSession). 
+
+```dart
+identityBuilder.validationIncludeList = [
+    "DetectFace",
+    "CompareFace",
+    "DetectSignature",
+    "CompareSignature",
+    "CheckRequiredField",
+    "MatchSidesFront",
+    "MatchSidesBack",
+    "FieldValidation",
+    "MatchVizMrz",
+    "MrzChecksum"
+]
+
+identityBuilder.validationExcludeList = []
 ```
 
 ## How to change the colors of the SDK?
