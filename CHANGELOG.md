@@ -1,3 +1,11 @@
+## 0.2.9
+
+* Bump Android to 0.7.7
+* Bump iOS to 0.5.20
+* Bump Kotlin to 1.9.20
+* Bump AGP to 7.4.2
+* Bump compileSdkVersion to 34
+
 ## 0.2.8
 
 * Bump Android to 0.7.5
