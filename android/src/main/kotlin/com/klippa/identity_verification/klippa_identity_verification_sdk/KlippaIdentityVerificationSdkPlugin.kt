@@ -158,6 +158,10 @@ class KlippaIdentityVerificationSdkPlugin : FlutterPlugin, MethodCallHandler, Ac
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+        if (requestCode != REQUEST_CODE) {
+            return false
+        }
+
         val mappedResultCode = IdentitySessionResultCode.mapResultCode(resultCode)
         when (mappedResultCode) {
             IdentitySessionResultCode.FINISHED -> identityVerificationFinished()

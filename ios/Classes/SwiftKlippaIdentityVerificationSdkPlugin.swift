@@ -142,14 +142,14 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
             switch error {
             case KlippaError.InsufficientPermissions:
                 return "Insufficient permissions"
+            case KlippaError.InputDeviceError:
+                return "Invalid input device"
             case KlippaError.SessionToken:
                 return "Invalid session token"
             case KlippaError.UserCanceled:
                 return "User canceled session"
             case KlippaError.NoInternetConnection:
                 return "No internet connection"
-            default:
-                return "The user canceled"
             }
         }()
 
