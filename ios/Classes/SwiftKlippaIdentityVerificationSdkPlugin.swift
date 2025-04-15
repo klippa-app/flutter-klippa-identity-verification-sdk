@@ -150,6 +150,8 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
                 return "User canceled session"
             case KlippaError.NoInternetConnection:
                 return "No internet connection"
+            case KlippaError.NfcNotSupported:
+                return "NFC not supported"
             }
         }()
 

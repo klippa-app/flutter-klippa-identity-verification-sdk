@@ -1,3 +1,10 @@
+## 0.2.13
+
+* Bump Android to 0.7.11
+* Bump iOS to 0.6.3
+* Bump compileSdkVersion to 35
+* Added namespace
+
 ## 0.2.12
 
 * Bump Android to 0.7.10

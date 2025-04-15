@@ -13,3 +13,4 @@ build/
 .gradle
 pubspec.lock
 local.properties
+example/android/app/.cxx
