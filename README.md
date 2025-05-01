@@ -63,6 +63,21 @@ Edit the file `ios/{project-name}/Info.plist` and add the `NSCameraUsageDescript
 ...
 ```
 
+In case you would like to use NFC also add the `com.apple.developer.nfc.readersession.iso7816.select-identifiers` key:
+
+```
+...
+<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+<array>
+<string>A0000002471001</string>
+<string>A0000002472001</string>
+<string>00000000000000</string>
+</array>
+...
+```
+
+**Important**: When using NFC also add "Near Field Communication Tag Reading" capability to your app using the Signing & Capabilities pane of the project editor.
+
 ### Flutter
 
 Add `klippa_identity_verification_sdk` as a dependency in your pubspec.yaml file.
