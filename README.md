@@ -186,6 +186,24 @@ To configure how often a user can attempt a task before the contact support butt
 ```dart
 identityBuilder.retryThreshold = 1;
 ```
+To configure if the SDK should quit instead of showing the support button you can set the following:
+```dart
+identityBuilder.exitOnRetryThresholdReached = true;
+```
+
+### Allow Camera On NFC Task
+
+To configure whether a user can skip NFC and use OCR instead.
+```dart
+identityBuilder.allowCameraOnNFCTask = true;
+```
+
+### NFC Timeout Threshold
+
+To configure how long the NFC detecting stays active you can set a timeout.
+```dart
+identityBuilder.nfcTimeoutThreshold = 5.0;
+```
 
 ### Language
 
