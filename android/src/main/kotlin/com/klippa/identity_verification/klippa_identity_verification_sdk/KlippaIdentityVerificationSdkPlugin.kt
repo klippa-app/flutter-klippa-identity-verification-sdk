@@ -141,6 +141,18 @@ class KlippaIdentityVerificationSdkPlugin : FlutterPlugin, MethodCallHandler, Ac
                 identitySession.retryThreshold = retryThreshold
             }
 
+            call.argument<Double>("NfcTimeoutThreshold")?.let { nfcTimeoutThreshold ->
+                identitySession.nfcTimeoutThreshold = nfcTimeoutThreshold
+            }
+
+            call.argument<Boolean>("AllowCameraOnNFCTask")?.let { allowCameraOnNFCTask ->
+                identitySession.allowCameraOnNFCTask = allowCameraOnNFCTask
+            }
+
+            call.argument<Boolean>("ExitOnRetryThresholdReached")?.let { exitOnRetryThresholdReached ->
+                identitySession.exitOnRetryThresholdReached = exitOnRetryThresholdReached
+            }
+
             val intent = identitySession.getIntent(activity)
             resultHandler = result
             activity.startActivityForResult(intent, REQUEST_CODE)
@@ -177,7 +189,9 @@ class KlippaIdentityVerificationSdkPlugin : FlutterPlugin, MethodCallHandler, Ac
             IdentitySessionResultCode.DEVICE_NFC_DISABLED,
             IdentitySessionResultCode.TAKING_PHOTO_FAILED,
             IdentitySessionResultCode.UNKNOWN_ERROR,
-            IdentitySessionResultCode.INCORRECT_SESSION_SETUP -> identityVerificationCanceled(mappedResultCode.message())
+            IdentitySessionResultCode.INCORRECT_SESSION_SETUP,
+            IdentitySessionResultCode.ALLOW_PICTURE_FALLBACK_DISABLED,
+            IdentitySessionResultCode.RETRY_LIMIT_REACHED -> identityVerificationCanceled(mappedResultCode.message())
         }
 
         return true

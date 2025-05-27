@@ -122,6 +122,14 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
         if let retryThreshold = builderArgs["RetryThreshold"] as? Int {
             builder.retryThreshold = retryThreshold
         }
+
+        if let allowCameraOnNFCTask = builderArgs["AllowCameraOnNFCTask"] as? Bool {
+            builder.allowCameraOnNFCTask = allowCameraOnNFCTask
+        }
+
+        if let exitOnRetryThresholdReached = builderArgs["ExitOnRetryThresholdReached"] as? Bool {
+            builder.exitOnRetryThresholdReached = exitOnRetryThresholdReached
+        }
         
         resultHandler = result
         let viewController = builder.build()
@@ -152,6 +160,10 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
                 return "No internet connection"
             case KlippaError.NfcNotSupported:
                 return "NFC not supported"
+            case KlippaError.AllowPictureFallbackDisabled:
+                return "Allow Picture Fallback Disabled"
+            case KlippaError.RetryLimitReached:
+                return "Retry Limit Reached"
             }
         }()
 
