@@ -130,6 +130,10 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
         if let exitOnRetryThresholdReached = builderArgs["ExitOnRetryThresholdReached"] as? Bool {
             builder.exitOnRetryThresholdReached = exitOnRetryThresholdReached
         }
+
+        if let nfcTimeoutThreshold = builderArgs["NfcTimeoutThreshold"] as? Double {
+            builder.nfcTimeoutThreshold = nfcTimeoutThreshold
+        }
         
         resultHandler = result
         let viewController = builder.build()

@@ -200,7 +200,7 @@ identityBuilder.allowCameraOnNFCTask = true;
 
 ### NFC Timeout Threshold
 
-To configure how long the NFC detecting stays active you can set a timeout. (Currently only supports Android)
+To configure how long the NFC detecting stays active you can set a timeout.
 ```dart
 identityBuilder.nfcTimeoutThreshold = 5.0;
 ```
