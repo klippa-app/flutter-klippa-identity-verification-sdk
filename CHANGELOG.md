@@ -1,7 +1,12 @@
+## 0.2.15
+
+* Bump Android to 0.7.13
+* Bump iOS to 0.6.6
+
 ## 0.2.14
 
 * Bump Android to 0.7.12
-* Bump iOS to 0.6.4
+* Bump iOS to 0.6.5
 * Added `allowCameraOnNFCTask`, `exitOnRetryThresholdReached` and `nfcTimeoutThreshold` to `IdentityBuilder`.
 
 ## 0.2.13
