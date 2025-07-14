@@ -151,7 +151,7 @@ ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = '{repository-url}'
 Replace `{repository-url}` with the URL that you want to use.
 
 
-### Customize SDK:
+### Customize SDK
 
 #### Debug
 
