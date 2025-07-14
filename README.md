@@ -1,5 +1,3 @@
-# flutter-klippa-identity-verification-sdk
-
 [![Dart version][dart-version]][dart-url]
 [![Build Status][build-status]][build-url]
 
@@ -8,26 +6,26 @@
 [dart-version]:https://img.shields.io/pub/v/klippa_identity_verification_sdk.svg
 [dart-url]:https://pub.dev/packages/klippa_identity_verification_sdk
 
-## SDK usage
+### SDK usage
 Please be aware you need to have a Klippa Identity Verification OCR API key to use this SDK.
 If you would like to use our Identity Verification SDK, please contact us [here](https://www.klippa.com/en/ocr/identity-documents/)
 
-## Getting started
-### Android
+### Getting started
+#### Android
 
 Edit the file `android/key.properties`, if it doesn't exist yet, create it. Add the SDK credentials:
 
-```
+```bash
 klippa.identity_verification.sdk.username={your-username}
 klippa.identity_verification.sdk.password={your-password}
 ```
 
 Replace the `{your-username}` and `{your-password}` values with the ones provided by Klippa.
 
-### iOS
+#### iOS
 
 Edit the file `ios/Podfile`, add the Klippa CocoaPod:
-```
+```ruby
 // Add this to the top of your file:
 // Edit the platform to a minimum of 13.0, our SDK doesn't support earlier iOS versions.
 platform :ios, '13.0'
@@ -54,7 +52,7 @@ end
 Replace the `{your-username}` and `{your-password}` values with the ones provided by Klippa.
 
 Edit the file `ios/{project-name}/Info.plist` and add the `NSCameraUsageDescription` value:
-```
+```xml
 ...
 <key>NSCameraUsageDescription</key>
 <string>Access to your camera is needed to photograph documents.</string>
@@ -65,7 +63,7 @@ Edit the file `ios/{project-name}/Info.plist` and add the `NSCameraUsageDescript
 
 In case you would like to use NFC also add the `com.apple.developer.nfc.readersession.iso7816.select-identifiers` key:
 
-```
+```xml
 ...
 <key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
 <array>
@@ -78,11 +76,11 @@ In case you would like to use NFC also add the `com.apple.developer.nfc.readerse
 
 **Important**: When using NFC also add "Near Field Communication Tag Reading" capability to your app using the Signing & Capabilities pane of the project editor.
 
-### Flutter
+#### Flutter
 
 Add `klippa_identity_verification_sdk` as a dependency in your pubspec.yaml file.
 
-## Usage
+### Usage
 ```dart
 import 'package:klippa_identity_verification_sdk/klippa_identity_verification_sdk.dart';
 
@@ -105,13 +103,13 @@ The reject reason object has a code and a message, the used codes are:
  - E_UNKNOWN_ERROR
  - E_CONTACT_SUPPORT_PRESSED
 
-## How to use a specific version of the SDK?
+### Specify SDK Version
 
-### Android
+#### Android
 
 Edit the file `android/build.gradle`, add the following:
 
-```maven
+```groovy
 allprojects {
   // ... other definitions
   project.ext {
@@ -126,17 +124,17 @@ If you want to change the repository:
 
 Edit the file `android/key.properties`, add the SDK repository URL:
 
-```
+```bash
 klippa.identity_verification.sdk.url={repository-url}
 ```
 
 Replace `{repository-url}` with the URL that you want to use.
 
-### iOS
+#### iOS
 
 Edit the file `ios/Podfile`, add the following line below the username/password if you want to change the version:
 
-```
+```ruby
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = '{version}'
 ```
 
@@ -146,16 +144,16 @@ If you want to change the repository:
 
 Edit the file `ios/Podfile`, add the following line below the username/password if you want to change the URL:
 
-```
+```ruby
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_URL'] = '{repository-url}'
 ```
 
 Replace `{repository-url}` with the URL that you want to use.
 
 
-## How to change the setup of the SDK:
+### Customize SDK:
 
-### Debug
+#### Debug
 
 To display extra debug info, add the following to the builder:
 
@@ -163,7 +161,7 @@ To display extra debug info, add the following to the builder:
 identityBuilder.isDebug = true;
 ```
 
-### Enable Auto Capture
+#### Enable Auto Capture
 
 To configure if the camera should automatically take a photo if the conditions are right.
 
@@ -171,7 +169,7 @@ To configure if the camera should automatically take a photo if the conditions a
 identityBuilder.enableAutoCapture = true;
 ```
 
-### Intro/Success screens
+#### Intro/Success screens
 
 To configure whether to show intro/success screens, add the following to the builder:
 
@@ -180,7 +178,7 @@ identityBuilder.hasIntroScreen = true;
 identityBuilder.hasSuccessScreen = true;
 ```
 
-### Retry Threshold
+#### Retry Threshold
 
 To configure how often a user can attempt a task before the contact support button is shown to the user.
 ```dart
@@ -191,21 +189,21 @@ To configure if the SDK should quit instead of showing the support button you ca
 identityBuilder.exitOnRetryThresholdReached = true;
 ```
 
-### Allow Camera On NFC Task
+#### Allow Camera On NFC Task
 
 To configure whether a user can skip NFC and use OCR instead.
 ```dart
 identityBuilder.allowCameraOnNFCTask = true;
 ```
 
-### NFC Timeout Threshold
+#### NFC Timeout Threshold
 
 To configure how long the NFC detecting stays active you can set a timeout.
 ```dart
 identityBuilder.nfcTimeoutThreshold = 5.0;
 ```
 
-### Language
+#### Language
 
 Add the following to the builder:
 
@@ -216,7 +214,7 @@ identityBuilder.language = KIVLanguage.Dutch;
 
 When no language is given we try to detect the language of the device and use that if we support it.
 
-### Include & Exclude lists
+#### Include & Exclude lists
 
 You can edit the include list: The extracted data keys that will be shown to the user after document pictures are processed. 
 Or the exclude list: The extracted data keys that will be hidden for the user after document pictures are processed.
@@ -246,7 +244,7 @@ identityBuilder.verifyIncludeList = [
 identityBuilder.verifyExcludeList = [];
 ```
 
-### Validation Include & Exclude lists
+#### Validation Include & Exclude lists
 
 You can edit the validation include list: the failed validations that are shown to the user Or the validation exclude list: the failed validations that are hidden from the user.
 For more information regarding validations check out the [API documentation](https://custom-ocr.klippa.com/docs#tag/IdentityVerification/operation/createIdentityVerificationSession). 
@@ -268,9 +266,9 @@ identityBuilder.validationIncludeList = [
 identityBuilder.validationExcludeList = []
 ```
 
-## How to change the colors of the SDK?
+### Customize the colours
 
-### Android
+#### Android
 
 Add or edit the file `android/app/src/main/res/values/colors.xml`, add the following:
 
@@ -291,7 +289,7 @@ You can also replace the fonts by adding the files:
  - android/app/src/main/res/font/kiv_font.ttf
  - android/app/src/main/res/font/kiv_font_bold.ttf
 
-### iOS
+#### iOS
 Use the following properties in the builder:
 
 ```dart
@@ -309,17 +307,17 @@ identityBuilder.fonts.fontName = 'Avenir Next';
 identityBuilder.fonts.boldFontName = 'Avenir Next';
 ```
 
-## Important iOS notes
+### Important iOS notes
 Older iOS versions do not ship the Swift libraries. To make sure the SDK works on older iOS versions, you can configure the build to embed the Swift libraries using the build setting `EMBEDDED_CONTENT_CONTAINS_SWIFT = YES`.
 
 We use XCFrameworks, you need CocoaPod version 1.9.0 or higher to be able to use it.
 
-## About Klippa
+### About Klippa
 
 [Klippa](https://www.klippa.com/en) is a scale-up from [Groningen, The Netherlands](https://goo.gl/maps/CcCGaPTBz3u8noSd6) and was founded in 2015 by six Dutch IT specialists with the goal to digitize paper processes with modern technologies.
 
 We help clients enhance the effectiveness of their organization by using machine learning and OCR. Since 2015 more than a 1000 happy clients have been served with a variety of the software solutions that Klippa offers. Our passion is to help our clients to digitize paper processes by using smart apps, accounts payable software and data extraction by using OCR.
 
-## License
+### License
 
 The MIT License (MIT)
