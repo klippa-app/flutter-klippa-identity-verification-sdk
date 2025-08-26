@@ -1,3 +1,8 @@
+## 0.2.16
+
+* Bump Android to 0.7.15
+* Bump iOS to 0.6.8
+
 ## 0.2.15
 
 * Bump Android to 0.7.13
