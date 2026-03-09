@@ -2,14 +2,14 @@ group 'com.klippa.identity_verification.klippa_identity_verification_sdk'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.9.22'
+    ext.kotlin_version = '2.1.0'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.6.1'
+        classpath 'com.android.tools.build:gradle:8.13.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -40,7 +40,7 @@ apply plugin: 'kotlin-android'
 
 android {
     namespace 'com.klippa.identity_verification.klippa_identity_verification_sdk'
-    compileSdk 35
+    compileSdk 36
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -69,6 +69,6 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    def klippaIdentityVerificationVersion = project.hasProperty('klippaIdentityVerificationVersion') ? project.klippaIdentityVerificationVersion : "0.7.15"
+    def klippaIdentityVerificationVersion = project.hasProperty('klippaIdentityVerificationVersion') ? project.klippaIdentityVerificationVersion : "0.7.17"
     implementation "com.klippa:identity_verification:$klippaIdentityVerificationVersion"
 }
