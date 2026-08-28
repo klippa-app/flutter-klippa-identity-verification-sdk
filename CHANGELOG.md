@@ -1,3 +1,7 @@
+## 0.2.18
+
+* Bump Android to 0.7.20
+
 ## 0.2.17
 
 * Bump Android to 0.7.17
