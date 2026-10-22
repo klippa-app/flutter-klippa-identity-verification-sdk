@@ -1,3 +1,8 @@
+## 0.3.0
+
+* Added Swift Package Manager support for iOS. CocoaPods keeps working.
+* Bump iOS to 0.7.0, which adds support for arm64 simulators on Apple Silicon Macs.
+
 ## 0.2.18
 
 * Bump Android to 0.7.20

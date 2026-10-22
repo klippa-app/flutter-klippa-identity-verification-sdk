@@ -9,12 +9,12 @@ Allows you to do identity verification with the Klippa Identity Verification SDK
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Klippa App BV' => 'jeroen@klippa.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'klippa_identity_verification_sdk/Sources/klippa_identity_verification_sdk/**/*.swift'
   s.dependency 'Flutter'
   s.dependency 'Klippa-Identity-Verification'
   s.platform = :ios, '13.0'
 
-  # Flutter.framework does not contain a i386 slice. Klippa Identity SDK does not contain a arm64 slice for simulators.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386 arm64' }
+  # Flutter.framework does not contain a i386 slice.
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
 end
