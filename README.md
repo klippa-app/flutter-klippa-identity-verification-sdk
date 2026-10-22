@@ -24,11 +24,35 @@ Replace the `{your-username}` and `{your-password}` values with the ones provide
 
 #### iOS
 
+Since Flutter 3.44, Flutter uses Swift Package Manager by default for iOS dependencies. The plugin supports both Swift Package Manager and CocoaPods.
+
+##### Swift Package Manager
+
+The SDK is downloaded from Klippa with the credentials in your `~/.netrc` file. Create the file if it doesn't exist yet and add:
+
+```netrc
+machine custom-ocr.klippa.com
+login {your-username}
+password {your-password}
+```
+
+Replace the `{your-username}` and `{your-password}` values with the ones provided by Klippa.
+
+Instead of `.netrc` you can also use Keychain Access: open Keychain Access > `File` > `New Password Item...`, set Keychain Item Name to `custom-ocr.klippa.com`, Account Name to `{your-username}` and Password to `{your-password}`.
+
+On a CI machine, add the same `.netrc` entry to the home directory of the user that runs the build.
+
+That's all: `flutter build ios` and `flutter run` add the SDK automatically. The SDK supports iOS 15.0 and later.
+
+##### CocoaPods
+
+When Swift Package Manager is turned off, or on Flutter versions before 3.44, use CocoaPods.
+
 Edit the file `ios/Podfile`, add the Klippa CocoaPod:
 ```ruby
 // Add this to the top of your file:
-// Edit the platform to a minimum of 13.0, our SDK doesn't support earlier iOS versions.
-platform :ios, '13.0'
+// Edit the platform to a minimum of 15.0, our SDK doesn't support earlier iOS versions.
+platform :ios, '15.0'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] = '{your-username}'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] = '{your-password}'
 
@@ -132,7 +156,9 @@ Replace `{repository-url}` with the URL that you want to use.
 
 #### iOS
 
-Edit the file `ios/Podfile`, add the following line below the username/password if you want to change the version:
+With Swift Package Manager, the SDK version is set by the plugin version.
+
+With CocoaPods, edit the file `ios/Podfile`, add the following line below the username/password if you want to change the version:
 
 ```ruby
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_VERSION'] = '{version}'
@@ -310,7 +336,7 @@ identityBuilder.fonts.boldFontName = 'Avenir Next';
 ### Important iOS notes
 Older iOS versions do not ship the Swift libraries. To make sure the SDK works on older iOS versions, you can configure the build to embed the Swift libraries using the build setting `EMBEDDED_CONTENT_CONTAINS_SWIFT = YES`.
 
-We use XCFrameworks, you need CocoaPod version 1.9.0 or higher to be able to use it.
+We use XCFrameworks. When you use CocoaPods, you need CocoaPods version 1.9.0 or higher.
 
 ### About Klippa
 
