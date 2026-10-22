@@ -14,3 +14,5 @@ build/
 pubspec.lock
 local.properties
 example/android/app/.cxx
+.build/
+.swiftpm/

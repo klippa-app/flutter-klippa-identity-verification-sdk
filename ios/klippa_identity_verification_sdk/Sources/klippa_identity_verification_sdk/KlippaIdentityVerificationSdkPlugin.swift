@@ -2,7 +2,7 @@ import Flutter
 import UIKit
 import KlippaIdentityVerification
 
-public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, IdentityBuilderDelegate {
+public class KlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, IdentityBuilderDelegate {
     private var resultHandler : FlutterResult? = nil
     private var E_MISSING_SESSION_TOKEN = "E_MISSING_SESSION_TOKEN"
     private var E_FAILED_TO_SHOW_SESSION = "E_FAILED_TO_SHOW_SESSION"
@@ -13,7 +13,7 @@ public class SwiftKlippaIdentityVerificationSdkPlugin: NSObject, FlutterPlugin, 
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "klippa_identity_verification_sdk", binaryMessenger: registrar.messenger())
-        let instance = SwiftKlippaIdentityVerificationSdkPlugin()
+        let instance = KlippaIdentityVerificationSdkPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
     
