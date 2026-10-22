@@ -2,6 +2,7 @@
 
 * Added Swift Package Manager support for iOS. CocoaPods keeps working.
 * Bump iOS to 0.7.0, which adds support for arm64 simulators on Apple Silicon Macs.
+* The minimum iOS version is now 15.0.
 
 ## 0.2.18
 

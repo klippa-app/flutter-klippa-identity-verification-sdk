@@ -42,7 +42,7 @@ Instead of `.netrc` you can also use Keychain Access: open Keychain Access > `Fi
 
 On a CI machine, add the same `.netrc` entry to the home directory of the user that runs the build.
 
-That's all: `flutter build ios` and `flutter run` add the SDK automatically. The SDK supports iOS 13.0 and later.
+That's all: `flutter build ios` and `flutter run` add the SDK automatically. The SDK supports iOS 15.0 and later.
 
 ##### CocoaPods
 
@@ -51,8 +51,8 @@ When Swift Package Manager is turned off, or on Flutter versions before 3.44, us
 Edit the file `ios/Podfile`, add the Klippa CocoaPod:
 ```ruby
 // Add this to the top of your file:
-// Edit the platform to a minimum of 13.0, our SDK doesn't support earlier iOS versions.
-platform :ios, '13.0'
+// Edit the platform to a minimum of 15.0, our SDK doesn't support earlier iOS versions.
+platform :ios, '15.0'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_USERNAME'] = '{your-username}'
 ENV['KLIPPA_IDENTITY_VERIFICATION_SDK_PASSWORD'] = '{your-password}'
 

@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "klippa_identity_verification_sdk",
     platforms: [
-        .iOS("13.0")
+        .iOS("15.0")
     ],
     products: [
         .library(name: "klippa-identity-verification-sdk", targets: ["klippa_identity_verification_sdk"])
